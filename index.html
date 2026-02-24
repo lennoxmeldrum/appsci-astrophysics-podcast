@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Applied Physics Astrophysics Podcast Project - Podcast Bootcamp</title>
+  <meta name="description" content="Intro task for Applied Physics Astrophysics Podcast Project: listen to exemplar podcasts and deconstruct what makes them successful." />
+  <style>
+    :root{
+      --bg: #0b1020;
+      --panel: #141b34;
+      --panel-2: #1b2447;
+      --text: #eaf0ff;
+      --muted: #b9c4ea;
+      --line: #2a3567;
+      --accent: #7aa2ff;
+      --accent-2: #8ef0d8;
+      --good: #78d69c;
+      --warn: #ffd27a;
+      --shadow: 0 10px 25px rgba(0,0,0,0.25);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --max: 1100px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #080c18 0%, #0b1020 45%, #0c1224 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--accent-2);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .container {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(11, 16, 32, 0.78);
+      border-bottom: 1px solid rgba(122, 162, 255, 0.15);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.8rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent) 0%, #6f7dff 45%, #5ed7ff 100%);
+      color: #09112a;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+    }
+
+    nav a {
+      color: var(--muted);
+      margin-left: 1rem;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 2.2rem 0 1.2rem;
+    }
+
+    .hero-card {
+      background:
+        radial-gradient(900px 300px at 15% -10%, rgba(122,162,255,0.25), transparent 60%),
+        radial-gradient(800px 300px at 90% 0%, rgba(142,240,216,0.18), transparent 60%),
+        linear-gradient(180deg, rgba(27,36,71,0.95), rgba(20,27,52,0.95));
+      border: 1px solid rgba(122, 162, 255, 0.18);
+      border-radius: 22px;
+      padding: 1.25rem 1.25rem 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid rgba(142,240,216,0.22);
+      background: rgba(142,240,216,0.08);
+      color: #d7fff4;
+      padding: 0.32rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+    }
+
+    .hero h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.5rem, 2vw + 1rem, 2.25rem);
+      line-height: 1.15;
+    }
+
+    .hero p {
+      margin: 0 0 0.8rem;
+      color: var(--muted);
+      max-width: 75ch;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .mini-panel {
+      background: rgba(11, 16, 32, 0.55);
+      border: 1px solid rgba(122, 162, 255, 0.12);
+      border-radius: 14px;
+      padding: 0.9rem;
+    }
+
+    .mini-panel h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1rem;
+    }
+
+    .mini-panel ul {
+      margin: 0;
+      padding-left: 1rem;
+      color: var(--muted);
+    }
+
+    .mini-panel li + li { margin-top: 0.3rem; }
+
+    section {
+      padding: 1.05rem 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .notice {
+      background: rgba(255, 210, 122, 0.08);
+      border: 1px solid rgba(255, 210, 122, 0.2);
+      color: #ffe8b7;
+      padding: 0.8rem 0.9rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card {
+      background: linear-gradient(180deg, rgba(27,36,71,0.92), rgba(20,27,52,0.95));
+      border: 1px solid rgba(122, 162, 255, 0.15);
+      border-radius: var(--radius);
+      padding: 0.95rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      margin: 0 0 0.3rem;
+      font-size: 1.03rem;
+      line-height: 1.2;
+    }
+
+    .card .subtitle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      border-radius: 999px;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid rgba(122, 162, 255, 0.2);
+      color: #dfe7ff;
+      background: rgba(122, 162, 255, 0.08);
+    }
+
+    .badge.required {
+      border-color: rgba(120, 214, 156, 0.22);
+      background: rgba(120, 214, 156, 0.08);
+      color: #dff8e8;
+    }
+
+    .badge.optional {
+      border-color: rgba(255, 210, 122, 0.22);
+      background: rgba(255, 210, 122, 0.08);
+      color: #fff0ca;
+    }
+
+    .card p {
+      margin: 0 0 0.55rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .card ul {
+      margin: 0.15rem 0 0.7rem 1rem;
+      color: var(--muted);
+      padding: 0;
+      font-size: 0.9rem;
+    }
+
+    .card ul li + li { margin-top: 0.25rem; }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .btn-link {
+      display: inline-block;
+      padding: 0.45rem 0.7rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      border: 1px solid rgba(122, 162, 255, 0.18);
+      background: rgba(11, 16, 32, 0.45);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .btn-link:hover {
+      text-decoration: none;
+      border-color: rgba(142, 240, 216, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .step {
+      background: rgba(20, 27, 52, 0.85);
+      border: 1px solid rgba(122, 162, 255, 0.13);
+      border-radius: 14px;
+      padding: 0.8rem;
+    }
+
+    .step .num {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 0.82rem;
+      background: rgba(122,162,255,0.18);
+      border: 1px solid rgba(122,162,255,0.22);
+      margin-bottom: 0.45rem;
+    }
+
+    .step h4 {
+      margin: 0 0 0.35rem;
+      font-size: 0.97rem;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .worksheet {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 0.9rem;
+    }
+
+    .template-box {
+      background: rgba(11, 16, 32, 0.55);
+      border: 1px solid rgba(122, 162, 255, 0.12);
+      border-radius: 14px;
+      padding: 0.8rem;
+    }
+
+    .template-box h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1rem;
+    }
+
+    .template-box p {
+      margin: 0 0 0.6rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 320px;
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid rgba(122, 162, 255, 0.18);
+      background: #0a0f1e;
+      color: var(--text);
+      padding: 0.8rem;
+      font: 500 0.9rem/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid rgba(122, 162, 255, 0.2);
+      background: rgba(122,162,255,0.12);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 0.45rem 0.7rem;
+      font-size: 0.85rem;
+    }
+
+    button:hover {
+      border-color: rgba(142,240,216,0.35);
+      background: rgba(142,240,216,0.12);
+    }
+
+    .criteria-list {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .criterion {
+      background: rgba(11, 16, 32, 0.45);
+      border: 1px solid rgba(122, 162, 255, 0.11);
+      border-radius: 12px;
+      padding: 0.7rem;
+    }
+
+    .criterion h4 {
+      margin: 0 0 0.25rem;
+      font-size: 0.94rem;
+    }
+
+    .criterion p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .submit-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+
+    .checklist {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .checklist li {
+      background: rgba(11, 16, 32, 0.45);
+      border: 1px solid rgba(122, 162, 255, 0.11);
+      border-radius: 12px;
+      padding: 0.65rem 0.75rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .checklist li strong { color: var(--text); }
+
+    .future-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .future-card {
+      border: 1px dashed rgba(122, 162, 255, 0.22);
+      border-radius: 14px;
+      padding: 0.75rem;
+      background: rgba(11, 16, 32, 0.28);
+    }
+
+    .future-card h4 {
+      margin: 0 0 0.3rem;
+      font-size: 0.95rem;
+    }
+
+    .future-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .footer {
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 1.2rem 0 2rem;
+    }
+
+    .small {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .muted { color: var(--muted); }
+
+    .success {
+      color: var(--good);
+      font-weight: 600;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .worksheet,
+      .submit-box,
+      .grid-3,
+      .steps,
+      .future-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-2 { grid-template-columns: 1fr; }
+
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="brand-badge">AP</div>
+        <div>
+          <div>Applied Physics - Astrophysics Podcast Project</div>
+          <div class="small">Podcast Bootcamp (Intro Task)</div>
+        </div>
+      </div>
+      <nav aria-label="Page sections">
+        <a href="#overview">Overview</a>
+        <a href="#exemplars">Exemplars</a>
+        <a href="#analysis">Analysis Task</a>
+        <a href="#submit">Submit</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="overview">
+      <div class="hero-card">
+        <div class="pill-row">
+          <span class="pill">Astrophysics Unit</span>
+          <span class="pill">Podcast Project (coming soon)</span>
+          <span class="pill">Today: Deconstruct Great Podcasts</span>
+        </div>
+
+        <h1>Podcast Bootcamp: What makes a strong science podcast?</h1>
+        <p>
+          Before your group starts planning and recording your own astrophysics podcast, your first job is to study
+          how strong science podcasts are built. You will listen to a curated set of short-to-medium astrophysics/space
+          podcasts and break down the sections, communication choices, and features that make them effective.
+        </p>
+        <p>
+          This is not a content quiz. This is a <strong>design analysis task</strong>. You are reverse-engineering
+          the format so your own episode has a clear structure, strong explanations, and a professional flow.
+        </p>
+
+        <div class="hero-grid">
+          <div class="mini-panel">
+            <h3>What you are doing today</h3>
+            <ul>
+              <li>Listen to required exemplar podcasts (and optionally one extra)</li>
+              <li>Map the episode structure with timestamps</li>
+              <li>Identify successful sections and why they work</li>
+              <li>Extract design ideas your group can use later</li>
+            </ul>
+          </div>
+          <div class="mini-panel">
+            <h3>Project teaser (basic overview only)</h3>
+            <ul>
+              <li>You will later work in groups (2-4 students)</li>
+              <li>Your group will create an astrophysics-themed podcast episode</li>
+              <li>More details, rubric, and research requirements will be added later</li>
+              <li>For now: focus on what "good" sounds like</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="exemplars">
+      <div class="section-title">
+        <h2>Required exemplar set</h2>
+        <p>All students analyze these 3 podcast styles</p>
+      </div>
+
+      <div class="notice">
+        <strong>Teacher note (for this first version):</strong> These cards link to the podcast/show pages. You can later
+        replace or add direct episode links once you decide the exact assigned episodes for this cohort.
+      </div>
+
+      <div class="grid grid-3" id="required-grid"></div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Optional extension set</h2>
+        <p>Choose 1 if you finish early or want a stronger model</p>
+      </div>
+      <div class="grid grid-3" id="optional-grid"></div>
+    </section>
+
+    <section id="analysis">
+      <div class="section-title">
+        <h2>How to analyze a podcast (student instructions)</h2>
+        <p>Focus on structure, clarity, evidence, and audience experience</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h4>Listen actively</h4>
+          <p>Do not just "play" it. Pause and timestamp major sections as the episode unfolds.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h4>Map the sections</h4>
+          <p>Identify hook, framing, explanation blocks, examples, transitions, and the ending.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h4>Judge what works</h4>
+          <p>Explain why specific sections are successful for a student audience, not just that they exist.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h4>Extract design rules</h4>
+          <p>Write clear takeaways your group can later use when building your own astrophysics podcast.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Podcast deconstruction worksheet</h2>
+        <p>Copy, paste, and complete this for each required exemplar</p>
+      </div>
+
+      <div class="worksheet">
+        <div class="template-box">
+          <h3>Copyable template</h3>
+          <p>
+            Use one completed version per podcast. Be specific. Use timestamps. Write short, precise notes.
+          </p>
+
+          <textarea id="worksheet-template" aria-label="Podcast deconstruction template">PODCAST DECONSTRUCTION - ASTROPHYSICS PODCAST BOOTCAMP
+
+Student name:
+Class:
+Date:
+Podcast show:
+Episode title (or topic):
+Episode link:
+Total runtime:
+
+A. EPISODE MAP (TIMESTAMPED)
+1) Hook / opening (time range):
+- What happens?
+- Does it grab attention? How?
+
+2) Topic framing / driving question (time range):
+- What is the central question/topic?
+- Is the purpose clear?
+
+3) Background / context (time range):
+- What prior knowledge is assumed?
+- What helpful context is given?
+
+4) Main explanation section(s) (time range):
+- Section 1:
+- Section 2:
+- Section 3 (if relevant):
+
+5) Evidence / examples / analogies (time range):
+- What examples are used?
+- Which example is most helpful and why?
+
+6) Transitions between sections (time range + notes):
+- How do they move from one idea/voice/segment to the next?
+
+7) Conclusion / takeaway / outro (time range):
+- How does the episode end?
+- Does it summarize the big idea clearly?
+
+B. COMMUNICATION MOVES (WHAT MAKES IT WORK?)
+- Best analogy used:
+- Best question asked by a host/interviewer:
+- Best moment of clarification for the audience:
+- Vocabulary explained well:
+- A moment that might confuse a beginner:
+
+C. SCIENCE QUALITY (CLAIMS, EVIDENCE, REASONING)
+- Main claim(s) made:
+- Evidence used (expert, observation, data, example, analogy, comparison):
+- How well did they connect evidence to the claim?
+- Did they mention uncertainty, limits, or open questions?
+
+D. PRODUCTION + TEAMWORK FEATURES
+- Number of speakers:
+- Roles (host / guest / explainer / interviewer / etc.):
+- Pacing (too fast / just right / too slow) + evidence:
+- Audio clarity:
+- Music/sound effects (helpful or distracting?):
+- Overall flow (1-5) and why:
+
+E. WHAT WE SHOULD COPY (FOR OUR OWN PODCAST)
+- 3 design choices we should borrow:
+1)
+2)
+3)
+
+F. WHAT TO AVOID
+- 2 things that did NOT work well for a student audience:
+1)
+2)
+
+G. FINAL VERDICT
+- This is a strong model for our class because...
+- My rating (1-5):
+</textarea>
+
+          <div class="toolbar">
+            <button type="button" id="copy-template-btn">Copy template</button>
+            <button type="button" id="download-template-btn">Download .txt</button>
+            <span id="copy-status" class="small" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="template-box">
+          <h3>What strong analysis looks like</h3>
+          <div class="criteria-list">
+            <div class="criterion">
+              <h4>1. Timestamped structure (not vague summary)</h4>
+              <p>
+                You identify clearly where sections begin/end and what each section does.
+              </p>
+            </div>
+            <div class="criterion">
+              <h4>2. Explains why sections are successful</h4>
+              <p>
+                You explain what makes a section effective for a student audience (clarity, pacing, examples, etc.).
+              </p>
+            </div>
+            <div class="criterion">
+              <h4>3. Evidence-based comments</h4>
+              <p>
+                You support your judgments with examples from the podcast (a quote idea, analogy, transition, or segment choice).
+              </p>
+            </div>
+            <div class="criterion">
+              <h4>4. Transfer to your own project</h4>
+              <p>
+                You extract concrete design ideas your group can use later when planning your own episode.
+              </p>
+            </div>
+            <div class="criterion">
+              <h4>5. Clear communication</h4>
+              <p>
+                Notes are organized, readable, and focused on podcast design - not random comments.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="submit">
+      <div class="section-title">
+        <h2>What to submit for this intro task</h2>
+        <p>This may be adjusted later by your teacher</p>
+      </div>
+
+      <div class="submit-box">
+        <div class="card">
+          <h3>Minimum submission (Phase 1)</h3>
+          <p class="subtitle">Required for all students</p>
+          <ul class="checklist">
+            <li><strong>3 completed deconstruction sheets</strong> (one for each required exemplar)</li>
+            <li><strong>1 comparison paragraph</strong> explaining which model would work best for a student-made astrophysics podcast and why</li>
+            <li><strong>1 short list of design rules</strong> your group should use later (5-8 bullet points)</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>If you do an optional exemplar</h3>
+          <p class="subtitle">Recommended for groups that finish early</p>
+          <ul class="checklist">
+            <li><strong>1 additional deconstruction sheet</strong> for the optional podcast</li>
+            <li><strong>1 note on what this model adds</strong> that the required exemplars did not</li>
+            <li><strong>1 idea you might combine</strong> with your preferred required model</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Coming soon (project pages)</h2>
+        <p>These sections will be added later as your project moves forward</p>
+      </div>
+      <div class="future-grid">
+        <div class="future-card">
+          <h4>Project Brief</h4>
+          <p>Full podcast task details, audience, constraints, and success criteria.</p>
+        </div>
+        <div class="future-card">
+          <h4>Group Roles + Workflow</h4>
+          <p>Host, researcher, script lead, editor, producer roles and timelines.</p>
+        </div>
+        <div class="future-card">
+          <h4>Research + Sources</h4>
+          <p>Source quality expectations and annotated bibliography requirements.</p>
+        </div>
+        <div class="future-card">
+          <h4>Rubric + Checkpoints</h4>
+          <p>Draft script review, recording checkpoint, final submission requirements.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer">
+      <p>
+        Built for Applied Physics Astrophysics Unit - Podcast Bootcamp. This page is the starting point only.
+        More project materials will be added in later phases.
+      </p>
+      <p class="small">
+        Tip for the teacher: edit the <code>requiredPodcasts</code> and <code>optionalPodcasts</code> arrays in the script below to add direct episode links and module-specific notes.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const requiredPodcasts = [
+      {
+        title: "NPR Short Wave",
+        source: "NPR",
+        type: "Required",
+        duration: "Typically short (often about 10-15 min)",
+        bestFor: "Hook + tight structure + clear explanations",
+        why: "Excellent first model because the structure is easy to hear and map. Great for learning how to explain complex science clearly in a short runtime.",
+        whatToNotice: [
+          "Hook and topic framing in the first minute",
+          "How the hosts make hard science accessible",
+          "Use of examples or analogies",
+          "Strong pacing and concise wrap-up"
+        ],
+        suggestedTopics: [
+          "Black holes",
+          "JWST / telescope discoveries",
+          "Space physics or cosmology explainers"
+        ],
+        links: [
+          { label: "Show page (NPR)", url: "https://s-s1.npr.org/podcasts/510351/short-wave/" },
+          { label: "Apple Podcasts", url: "https://podcasts.apple.com/in/podcast/short-wave/id1482575855" }
+        ]
+      },
+      {
+        title: "The Supermassive Podcast",
+        source: "Royal Astronomical Society (Acast / Apple)",
+        type: "Required",
+        duration: "Pick a bonus/shorter episode when possible",
+        bestFor: "Distinct sections + recurring segments + modular design",
+        why: "Excellent for identifying clearly different sections and speaker roles. Very useful for students planning a group podcast with multiple contributors.",
+        whatToNotice: [
+          "Section changes and transitions",
+          "Different speaker roles (hosts / experts / Q&A / tips)",
+          "How recurring segments create a predictable structure",
+          "How topic depth is balanced with audience accessibility"
+        ],
+        suggestedTopics: [
+          "Gravity",
+          "Dark skies",
+          "Bonus Q&A episodes"
+        ],
+        links: [
+          { label: "Show page (Acast)", url: "https://shows.acast.com/the-supermassive-podcast" },
+          { label: "Apple Podcasts", url: "https://podcasts.apple.com/us/podcast/the-supermassive-podcast/id1495324190" }
+        ]
+      },
+      {
+        title: "Star Diary",
+        source: "BBC Sky at Night Magazine",
+        type: "Required",
+        duration: "Often around 20-30 min (choose one near the lower end if assigned)",
+        bestFor: "Interview / expert conversation format",
+        why: "Useful for learning how a host guides a conversation with an expert and keeps the audience oriented while discussing astronomy topics.",
+        whatToNotice: [
+          "How questions are framed",
+          "How the host keeps the conversation focused",
+          "Moments when technical language is explained",
+          "How the episode ends with a clear takeaway"
+        ],
+        suggestedTopics: [
+          "Black holes",
+          "Observatories / new telescope missions",
+          "Current astronomy discoveries"
+        ],
+        links: [
+          { label: "Show page (Sky at Night)", url: "https://www.skyatnightmagazine.com/articles/podcasts/star-diary" },
+          { label: "Apple Podcasts", url: "https://podcasts.apple.com/us/podcast/star-diary/id683231712" }
+        ]
+      }
+    ];
+
+    const optionalPodcasts = [
+      {
+        title: "NASA's Curious Universe",
+        source: "NASA",
+        type: "Optional",
+        duration: "Usually medium length (often about 20-30 min)",
+        bestFor: "Narrative storytelling + production quality",
+        why: "Strong example of polished science storytelling. Good for students who want to study how to make a science podcast sound professional and engaging.",
+        whatToNotice: [
+          "Narrative arc and storytelling style",
+          "Use of expert voices and scene-setting",
+          "How audio production supports the science",
+          "How the episode builds curiosity"
+        ],
+        suggestedTopics: [
+          "Black holes / astrophysics episodes",
+          "Moon / planetary science",
+          "Space missions with strong story arcs"
+        ],
+        links: [
+          { label: "Official NASA archive", url: "https://www.nasa.gov/podcasts/curious-universe/" },
+          { label: "Apple Podcasts", url: "https://podcasts.apple.com/us/podcast/nasa%27s-curious-universe/id1505624059" }
+        ]
+      },
+      {
+        title: "Astronomy Cast",
+        source: "AstronomyCast.com / Libsyn",
+        type: "Optional",
+        duration: "Often longer - consider selected clips or one targeted episode",
+        bestFor: "Content depth + technical explanation",
+        why: "Great for groups who want a deeper, more evidence-rich model. Best used selectively because some episodes may be longer than ideal for an intro task.",
+        whatToNotice: [
+          "How terminology is introduced and repeated",
+          "Depth vs accessibility trade-offs",
+          "How a focused topic can be unpacked carefully",
+          "How hosts maintain clarity over a longer runtime"
+        ],
+        suggestedTopics: [
+          "Black holes",
+          "Stars / stellar evolution",
+          "Cosmology topics linked to your modules"
+        ],
+        links: [
+          { label: "Podcast archive (Libsyn)", url: "https://astronomycast.libsyn.com/" },
+          { label: "About Astronomy Cast", url: "https://www.astronomycast.com/about/" }
+        ]
+      },
+      {
+        title: "Ask a Spaceman!",
+        source: "Paul M. Sutter",
+        type: "Optional",
+        duration: "Varies - choose a shorter episode when possible",
+        bestFor: "Q&A / explainer format for big astrophysics questions",
+        why: "Useful for groups considering a question-driven podcast format. Strong model for answering complex topics in a clear, audience-facing way.",
+        whatToNotice: [
+          "How the episode question is framed",
+          "How the explanation is broken into chunks",
+          "Where the speaker clarifies misconceptions",
+          "How audience interest is maintained in a Q&A format"
+        ],
+        suggestedTopics: [
+          "Universe / cosmology questions",
+          "Black holes",
+          "Gravitational waves or astrophysics fundamentals"
+        ],
+        links: [
+          { label: "Official show page", url: "https://www.pmsutter.com/shows/askaspaceman" },
+          { label: "Apple Podcasts", url: "https://podcasts.apple.com/us/podcast/ask-a-spaceman%21/id958825741" }
+        ]
+      }
+    ];
+
+    function makeBadge(type) {
+      const cls = type.toLowerCase() === "required" ? "required" : "optional";
+      return `<span class="badge ${cls}">${type}</span>`;
+    }
+
+    function renderPodcastCard(p) {
+      return `
+        <article class="card">
+          <div class="badge-row">
+            ${makeBadge(p.type)}
+            <span class="badge">${escapeHTML(p.source)}</span>
+            <span class="badge">${escapeHTML(p.bestFor)}</span>
+          </div>
+          <h3>${escapeHTML(p.title)}</h3>
+          <div class="subtitle">${escapeHTML(p.duration)}</div>
+          <p>${escapeHTML(p.why)}</p>
+
+          <p><strong>What to notice:</strong></p>
+          <ul>
+            ${p.whatToNotice.map(item => `<li>${escapeHTML(item)}</li>`).join("")}
+          </ul>
+
+          <p><strong>Suggested episode/topic choices:</strong></p>
+          <ul>
+            ${p.suggestedTopics.map(item => `<li>${escapeHTML(item)}</li>`).join("")}
+          </ul>
+
+          <div class="links">
+            ${p.links.map(link => `
+              <a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer">
+                ${escapeHTML(link.label)}
+              </a>
+            `).join("")}
+          </div>
+        </article>
+      `;
+    }
+
+    function escapeHTML(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    document.getElementById("required-grid").innerHTML = requiredPodcasts.map(renderPodcastCard).join("");
+    document.getElementById("optional-grid").innerHTML = optionalPodcasts.map(renderPodcastCard).join("");
+
+    const templateTextarea = document.getElementById("worksheet-template");
+    const copyBtn = document.getElementById("copy-template-btn");
+    const downloadBtn = document.getElementById("download-template-btn");
+    const copyStatus = document.getElementById("copy-status");
+
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(templateTextarea.value);
+        copyStatus.textContent = "Copied to clipboard.";
+        setTimeout(() => { copyStatus.textContent = ""; }, 1800);
+      } catch (err) {
+        copyStatus.textContent = "Copy failed - select and copy manually.";
+      }
+    });
+
+    downloadBtn.addEventListener("click", () => {
+      const blob = new Blob([templateTextarea.value], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "podcast-deconstruction-template.txt";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
