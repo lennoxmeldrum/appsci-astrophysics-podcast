@@ -275,13 +275,12 @@
     .hero p {
       margin: 0 0 0.75rem;
       color: var(--muted);
-      max-width: 72ch;
       font-size: 0.97rem;
     }
 
     .hero-panels {
       display: grid;
-      grid-template-columns: 1.3fr 0.7fr;
+      grid-template-columns: 1fr 1fr;
       gap: 1rem;
       margin-top: 1.25rem;
     }
@@ -525,6 +524,7 @@
       padding: 1.5rem 0 3rem;
       border-top: 1px solid rgba(129,140,248,0.08);
       margin-top: 1rem;
+      text-align: center;
     }
 
     /* ── Utility ────────────────────────────────────────────── */
@@ -557,7 +557,6 @@
         <div class="brand-icon">🔭</div>
         <div>
           <div class="brand-title">Applied Physics – Astrophysics Podcast Project</div>
-          <div class="brand-sub">Grade 11</div>
         </div>
       </div>
     </div>
@@ -588,12 +587,7 @@
   <!-- ── Hero / Overview ─────────────────────────────────── -->
   <section class="hero" id="overview">
     <div class="hero-card">
-      <div class="pill-row">
-        <span class="pill pill-blue">Astrophysics Unit</span>
-        <span class="pill pill-purple">Podcast Project Coming Soon</span>
-        <span class="pill pill-teal">Today: Deconstruct Great Podcasts</span>
-      </div>
-      <h1>Podcast Bootcamp: What makes a strong science podcast?</h1>
+      <h1>What makes a strong science podcast?</h1>
       <p>
         Before your group starts planning and recording your own astrophysics podcast, your first job is to study
         how strong science podcasts are built. You will listen to a curated set of short-to-medium astrophysics/space
@@ -662,18 +656,14 @@
     <div class="section-heading">
       <div class="section-label">Analysis tool</div>
       <h2>Podcast deconstruction worksheet</h2>
-      <p>Copy and complete one of these for each required exemplar</p>
     </div>
     <div class="worksheet">
       <div class="template-box">
-        <h3>Copyable template</h3>
-        <p>Use one completed version per podcast. Be specific. Use timestamps. Write short, precise notes.</p>
+        <h3>Template</h3>
+        <p>Copy the template below into a new Google Doc, adding it to four tabs within the same Doc. You will use one tab per podcast you review. Also add a fifth tab where you will add your Comparison Paragraph and Design Rules list. Share the Doc with your teacher.</p>
 
         <textarea id="worksheet-template" aria-label="Podcast deconstruction template">PODCAST DECONSTRUCTION - ASTROPHYSICS PODCAST BOOTCAMP
 
-Student name:
-Class:
-Date:
 Podcast show:
 Episode title (or topic):
 Episode link:
@@ -784,22 +774,20 @@ G. FINAL VERDICT
   <section id="submit">
     <div class="section-heading">
       <div class="section-label">Deliverables</div>
-      <h2>What to submit for this intro task</h2>
+      <h2>What to complete for this task</h2>
       <p>Check with your teacher if anything changes before the due date</p>
     </div>
     <div class="submit-grid">
       <div class="card">
         <h3>Minimum submission</h3>
-        <p class="subtitle">Required for all students</p>
         <ul class="checklist">
-          <li><strong>3 completed deconstruction sheets</strong> — one for each required exemplar</li>
+          <li><strong>3 completed deconstruction tabs</strong> — one for each required exemplar</li>
           <li><strong>1 comparison paragraph</strong> — which model would work best for a student-made astrophysics podcast and why</li>
           <li><strong>1 short design rules list</strong> — 5–8 bullet points your group should use later</li>
         </ul>
       </div>
       <div class="card">
         <h3>If you do an optional exemplar</h3>
-        <p class="subtitle">For groups that finish early</p>
         <ul class="checklist">
           <li><strong>1 additional deconstruction sheet</strong> for the optional podcast</li>
           <li><strong>1 note on what this model adds</strong> that the required exemplars did not</li>
@@ -814,7 +802,7 @@ G. FINAL VERDICT
     <div class="section-heading">
       <div class="section-label">Required listening</div>
       <h2>Required exemplar set</h2>
-      <p>All students analyze these 3 podcast styles</p>
+      <p>You are to select one podcast from each of these sources</p>
     </div>
     <div class="grid grid-3" id="required-grid"></div>
   </section>
@@ -833,7 +821,7 @@ G. FINAL VERDICT
 
 <footer class="page-footer">
   <div class="container">
-    <p>Applied Physics — Astrophysics Unit · Podcast Bootcamp · More project materials will be added in later phases.</p>
+    <p>Applied Physics – Astrophysics Podcast Website – Designed for Students</p>
   </div>
 </footer>
 
@@ -1041,11 +1029,6 @@ G. FINAL VERDICT
   function renderPodcastCard(p) {
     return `
       <article class="card">
-        <div class="badge-row">
-          ${makeBadge(p.type)}
-          <span class="badge">${escapeHTML(p.source)}</span>
-          <span class="badge">${escapeHTML(p.bestFor)}</span>
-        </div>
         <h3>${escapeHTML(p.title)}</h3>
         <div class="subtitle">${escapeHTML(p.duration)}</div>
         <p>${escapeHTML(p.why)}</p>
