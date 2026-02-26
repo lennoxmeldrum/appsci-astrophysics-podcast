@@ -60,7 +60,7 @@
     }
 
     /* ── Stacking context ──────────────────────────────────── */
-    header, main, .page-footer { position: relative; z-index: 1; }
+    header, main, .tab-panel, .page-footer { position: relative; z-index: 1; }
 
     .container {
       width: min(var(--max), calc(100% - 2rem));
@@ -533,6 +533,234 @@
     .muted { color: var(--muted); }
     .small { font-size: 0.82rem; color: var(--muted); }
 
+    /* ── Tab panel visibility ──────────────────────────────── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .tab.inactive {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.1);
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .tab.inactive:hover {
+      border-color: rgba(129,140,248,0.35);
+      background: rgba(129,140,248,0.08);
+      color: var(--text);
+    }
+
+    /* ── Project Brief tab ──────────────────────────────────── */
+    .brief-hero { padding: 2rem 0 0.75rem; }
+    .brief-hero h1 {
+      margin: 0 0 0.65rem;
+      font-size: clamp(1.6rem, 2.5vw + 0.8rem, 2.4rem);
+      font-weight: 700; line-height: 1.15;
+      background: linear-gradient(135deg, #edf0ff 25%, #c084fc 65%, #2dd4bf 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .brief-hero p { color: var(--muted); font-size: 0.97rem; max-width: 72ch; margin: 0; }
+
+    .info-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin: 1rem 0; }
+    .info-card {
+      background: var(--panel); border: 1px solid rgba(129,140,248,0.15);
+      border-radius: var(--radius); padding: 1.25rem;
+    }
+    .info-card h3 { margin: 0 0 0.45rem; font-size: 0.95rem; font-weight: 700; color: var(--accent); }
+    .info-card .ic-main { margin: 0 0 0.4rem; font-size: 0.97rem; color: var(--text); }
+    .info-card .ic-note { margin: 0; color: var(--muted); font-size: 0.84rem; }
+
+    .topic-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.6rem; margin-top: 0.75rem; }
+    .topic-item {
+      background: var(--panel); border: 1px solid rgba(129,140,248,0.1);
+      border-radius: var(--radius-sm); padding: 0.85rem 1rem;
+      font-size: 0.9rem; color: var(--text); transition: border-color 0.2s;
+    }
+    .topic-item:hover { border-color: rgba(129,140,248,0.3); }
+
+    .req-list { display: grid; gap: 0.75rem; margin-top: 1rem; }
+    .req-item {
+      background: rgba(5,8,16,0.55); border: 1px solid rgba(129,140,248,0.1);
+      border-radius: var(--radius); padding: 1.1rem 1.25rem;
+    }
+    .req-item h3 { margin: 0 0 0.45rem; font-size: 0.97rem; font-weight: 600; }
+    .req-item p  { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    .structure-list { display: grid; gap: 0.75rem; margin-top: 1rem; }
+    .structure-item {
+      background: var(--panel); border: 1px solid rgba(129,140,248,0.12);
+      border-radius: var(--radius); padding: 1.1rem 1.25rem;
+    }
+    .structure-item h3 { margin: 0 0 0.4rem; font-size: 0.97rem; font-weight: 600; }
+    .structure-item p  { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    .timeline-wrap {
+      overflow-x: auto; border-radius: var(--radius);
+      border: 1px solid rgba(129,140,248,0.12); background: var(--panel); margin-top: 1rem;
+    }
+    .timeline-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .timeline-table th {
+      background: rgba(5,8,16,0.7); padding: 0.75rem 1rem; text-align: left;
+      font-weight: 600; color: var(--text); border-bottom: 1px solid rgba(129,140,248,0.15);
+    }
+    .timeline-table td {
+      padding: 0.75rem 1rem; color: var(--muted);
+      vertical-align: top; border-bottom: 1px solid rgba(129,140,248,0.07);
+    }
+    .timeline-table td:first-child { font-weight: 700; color: var(--accent); white-space: nowrap; }
+    .timeline-table tr:last-child td { border-bottom: none; }
+
+    .box-emerald {
+      background: rgba(45,212,191,0.07); border: 1px solid rgba(45,212,191,0.2);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+    }
+    .box-emerald h2 { margin: 0 0 0.75rem; font-size: 1.1rem; font-weight: 700; color: #5eead4; }
+    .box-emerald ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.45rem; }
+    .box-emerald li { color: var(--muted); font-size: 0.93rem; padding-left: 1.2rem; position: relative; }
+    .box-emerald li::before { content: '—'; position: absolute; left: 0; color: #5eead4; }
+
+    .box-amber {
+      background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.2);
+      border-radius: var(--radius-sm); padding: 0.9rem 1.1rem;
+      color: var(--muted); font-size: 0.9rem; margin-top: 1rem;
+    }
+    .box-amber strong { color: #fb923c; }
+
+    /* ── Group Roles slideshow ──────────────────────────────── */
+    .slideshow-wrap {
+      background: var(--panel); border: 1px solid rgba(129,140,248,0.15);
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+    }
+    .slide-header {
+      background: linear-gradient(135deg, #060b18, #0f1a2e);
+      padding: 1.4rem 1.75rem; display: flex; align-items: center;
+      justify-content: space-between; gap: 1rem;
+      border-bottom: 1px solid rgba(129,140,248,0.12);
+    }
+    .slide-hdr-left { display: flex; align-items: center; gap: 1rem; }
+    .slide-icon { font-size: 1.9rem; flex-shrink: 0; }
+    .slide-title { font-size: 1.2rem; font-weight: 700; color: var(--text); line-height: 1.2; }
+    .slide-subtitle { font-size: 0.83rem; color: var(--muted); margin-top: 0.2rem; }
+    .slide-counter-num { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-align: right; line-height: 1; }
+    .slide-counter-of { font-size: 0.72rem; color: var(--muted); text-align: right; }
+    .slide-body { padding: 1.75rem 2rem; min-height: 340px; }
+    .slide-foot {
+      background: rgba(5,8,16,0.4); border-top: 1px solid rgba(129,140,248,0.1);
+      padding: 0.9rem 1.5rem; display: flex; align-items: center; justify-content: space-between;
+    }
+    .slide-nav-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.45rem 1rem; border-radius: 9px; font-size: 0.84rem; font-weight: 600;
+      border: 1px solid rgba(129,140,248,0.25); background: rgba(129,140,248,0.1);
+      color: var(--text); cursor: pointer; font-family: inherit; transition: all 0.18s;
+    }
+    .slide-nav-btn:hover:not(:disabled) { border-color: rgba(45,212,191,0.45); background: rgba(45,212,191,0.1); }
+    .slide-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .slide-dots { display: flex; gap: 0.45rem; align-items: center; }
+    .slide-dot {
+      height: 8px; border-radius: 999px; transition: width 0.2s, background 0.2s;
+      border: none; cursor: pointer; padding: 0; background: rgba(129,140,248,0.25); font-size: 0;
+    }
+    .slide-dot.s-active { width: 28px; background: var(--accent); }
+    .slide-dot:not(.s-active) { width: 8px; }
+    .slide-dot:hover:not(.s-active) { background: rgba(129,140,248,0.5); }
+
+    /* Slide inner pieces */
+    .s-hl-blue {
+      background: rgba(129,140,248,0.08); border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 1rem 1.25rem; color: var(--muted); font-size: 0.92rem; line-height: 1.65;
+    }
+    .s-hl-teal {
+      background: rgba(45,212,191,0.07); border-left: 3px solid var(--accent-2);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 1rem 1.25rem; color: var(--muted); font-size: 0.9rem;
+    }
+    .s-hl-amber {
+      background: rgba(251,146,60,0.07); border-radius: var(--radius-sm);
+      padding: 0.9rem 1.1rem; color: var(--muted); font-size: 0.9rem;
+    }
+    .s-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.75rem; margin-top: 1rem; }
+    .s-grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.75rem; }
+    .s-vstack { display: grid; gap: 1rem; }
+    .s-card {
+      background: rgba(5,8,16,0.6); border: 1px solid rgba(129,140,248,0.12);
+      border-radius: var(--radius-sm); padding: 1rem;
+    }
+    .s-card-title { font-weight: 600; font-size: 0.93rem; margin-bottom: 0.45rem; color: var(--text); }
+    .s-card-sub { font-size: 0.83rem; color: var(--muted); }
+    .s-card ul {
+      margin: 0.45rem 0 0; padding-left: 1rem; color: var(--muted);
+      font-size: 0.85rem; display: grid; gap: 0.25rem; list-style: disc;
+    }
+    .roles-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+    .roles-note-card {
+      background: var(--panel); border: 1px solid rgba(129,140,248,0.13);
+      border-radius: var(--radius); padding: 1.25rem;
+    }
+    .roles-note-card h3 { margin: 0 0 0.75rem; font-size: 0.97rem; font-weight: 700; }
+    .roles-note-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.45rem; }
+    .roles-note-card li { color: var(--muted); font-size: 0.9rem; padding-left: 1.2rem; position: relative; }
+    .roles-note-card li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+    .roles-note-card li.rn-small { font-size: 0.82rem; color: rgba(136,153,204,0.7); }
+
+    /* ── Research & Sources tab ─────────────────────────────── */
+    .sources-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .sources-card {
+      background: rgba(5,8,16,0.55); border: 1px solid rgba(129,140,248,0.12);
+      border-radius: var(--radius); padding: 1.1rem 1.25rem;
+    }
+    .sources-card h3 { margin: 0 0 0.5rem; font-size: 0.97rem; font-weight: 700; }
+    .sources-card ul { margin: 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.9rem; display: grid; gap: 0.35rem; }
+
+    .bib-header-row { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+    .bib-dl-btns { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+    .btn-dl-primary {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.5rem 1.1rem; border-radius: 9px; font-size: 0.84rem; font-weight: 600;
+      background: rgba(129,140,248,0.18); border: 1px solid rgba(129,140,248,0.38);
+      color: #c5ccff; cursor: pointer; font-family: inherit; transition: all 0.18s;
+    }
+    .btn-dl-primary:hover { background: rgba(129,140,248,0.28); }
+    .btn-dl-secondary {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.5rem 1.1rem; border-radius: 9px; font-size: 0.84rem; font-weight: 600;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text); cursor: pointer; font-family: inherit; transition: all 0.18s;
+    }
+    .btn-dl-secondary:hover { background: rgba(255,255,255,0.09); }
+
+    .bib-table-wrap {
+      overflow-x: auto; border-radius: var(--radius);
+      border: 1px solid rgba(129,140,248,0.12); margin-top: 1.25rem;
+    }
+    .bib-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; background: var(--panel); }
+    .bib-table th {
+      background: rgba(5,8,16,0.7); padding: 0.75rem 1rem; text-align: left;
+      font-weight: 600; border-bottom: 1px solid rgba(129,140,248,0.15);
+      color: var(--text); white-space: nowrap;
+    }
+    .bib-table td {
+      padding: 0.75rem 1rem; color: var(--muted);
+      border-bottom: 1px solid rgba(129,140,248,0.07); vertical-align: top;
+    }
+    .bib-table td:first-child { font-weight: 600; color: var(--text); white-space: nowrap; }
+    .bib-table tr:last-child td { border-bottom: none; }
+
+    .box-good {
+      background: rgba(45,212,191,0.07); border: 1px solid rgba(45,212,191,0.18);
+      border-radius: var(--radius-sm); padding: 0.9rem 1.1rem;
+      color: var(--muted); font-size: 0.9rem; margin-top: 1.25rem;
+    }
+    .box-good strong { color: #5eead4; }
+
+    .apa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .apa-card {
+      background: rgba(5,8,16,0.55); border: 1px solid rgba(129,140,248,0.1);
+      border-radius: var(--radius); padding: 1.1rem 1.25rem;
+    }
+    .apa-card h3 { margin: 0 0 0.5rem; font-size: 0.94rem; font-weight: 600; }
+    .apa-card p { margin: 0; color: var(--muted); font-size: 0.87rem; line-height: 1.7; }
+
     /* ── Responsive ─────────────────────────────────────────── */
     @media (max-width: 900px) {
       .hero-panels,
@@ -541,6 +769,8 @@
       .grid-3,
       .steps { grid-template-columns: 1fr; }
       .grid-2 { grid-template-columns: 1fr; }
+      .info-grid-3, .topic-grid, .s-grid-3, .s-grid-2,
+      .roles-notes, .sources-grid-2, .apa-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -562,17 +792,17 @@
     </div>
 
     <div class="tab-bar" role="tablist" aria-label="Project sections">
-      <button class="tab active" role="tab" aria-selected="true">
+      <button class="tab active" role="tab" aria-selected="true" data-tab="bootcamp" id="tab-bootcamp" aria-controls="panel-bootcamp">
         🎙 Podcast Bootcamp
       </button>
-      <button class="tab locked" role="tab" aria-selected="false" aria-disabled="true" disabled title="Coming soon">
-        Project Brief <span class="soon-pill">Soon</span>
+      <button class="tab inactive" role="tab" aria-selected="false" data-tab="brief" id="tab-brief" aria-controls="panel-brief">
+        Project Brief
       </button>
-      <button class="tab locked" role="tab" aria-selected="false" aria-disabled="true" disabled title="Coming soon">
-        Group Roles &amp; Workflow <span class="soon-pill">Soon</span>
+      <button class="tab inactive" role="tab" aria-selected="false" data-tab="roles" id="tab-roles" aria-controls="panel-roles">
+        Group Roles &amp; Workflow
       </button>
-      <button class="tab locked" role="tab" aria-selected="false" aria-disabled="true" disabled title="Coming soon">
-        Research &amp; Sources <span class="soon-pill">Soon</span>
+      <button class="tab inactive" role="tab" aria-selected="false" data-tab="sources" id="tab-sources" aria-controls="panel-sources">
+        Research &amp; Sources
       </button>
       <button class="tab locked" role="tab" aria-selected="false" aria-disabled="true" disabled title="Coming soon">
         Rubric &amp; Checkpoints <span class="soon-pill">Soon</span>
@@ -582,6 +812,7 @@
   </div>
 </header>
 
+<div id="panel-bootcamp" class="tab-panel active" role="tabpanel" aria-labelledby="tab-bootcamp">
 <main class="container">
 
   <!-- ── Hero / Overview ─────────────────────────────────── -->
@@ -817,6 +1048,441 @@ G. FINAL VERDICT
   </section>
 
 </main>
+</div><!-- /panel-bootcamp -->
+
+<!-- ══════════════════════════════════════════════════════════
+     TAB: Project Brief
+══════════════════════════════════════════════════════════ -->
+<div id="panel-brief" class="tab-panel" role="tabpanel" aria-labelledby="tab-brief">
+  <div class="container" style="padding-bottom:3rem;">
+
+    <div class="brief-hero">
+      <h1>Astrophysics Podcast — Project Brief</h1>
+      <p>Your group will create an educational, engaging astrophysics podcast episode for a general audience. Your challenge is to make complex ideas understandable without dumbing them down.</p>
+    </div>
+
+    <!-- Quick facts -->
+    <div class="info-grid-3">
+      <div class="info-card">
+        <h3>Team</h3>
+        <p class="ic-main">Groups of 2–4 students</p>
+        <p class="ic-note">You will divide responsibilities, but everyone must understand the full story.</p>
+      </div>
+      <div class="info-card">
+        <h3>Length</h3>
+        <p class="ic-main">10–15 minutes</p>
+        <p class="ic-note">Short enough to stay tight. Long enough to teach something real.</p>
+      </div>
+      <div class="info-card">
+        <h3>Topic</h3>
+        <p class="ic-main">Choose from the list or propose your own</p>
+        <p class="ic-note">Your topic must be astrophysics-focused and teacher-approved.</p>
+      </div>
+    </div>
+
+    <!-- Topic ideas -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Ideas</div>
+        <h2>Topic ideas</h2>
+        <p>You can choose one of these, or propose something else (with approval).</p>
+      </div>
+      <div class="topic-grid">
+        <div class="topic-item">Exoplanets and the search for life</div>
+        <div class="topic-item">Black holes and what we can actually know</div>
+        <div class="topic-item">The life cycle of stars</div>
+        <div class="topic-item">Dark matter and dark energy</div>
+        <div class="topic-item">The Big Bang and the evolution of the universe</div>
+        <div class="topic-item">Cosmic microwave background radiation</div>
+        <div class="topic-item">Neutron stars and pulsars</div>
+        <div class="topic-item">Gravitational waves</div>
+        <div class="topic-item">Space exploration and missions</div>
+        <div class="topic-item">Multiverse ideas (careful — define what is science vs speculation)</div>
+      </div>
+    </section>
+
+    <!-- Core requirements -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Requirements</div>
+        <h2>Core requirements</h2>
+      </div>
+      <div class="req-list">
+        <div class="req-item">
+          <h3>1) A clear driving question</h3>
+          <p>Start with 1–3 big questions that genuinely guide the episode (unknowns, debates, recent discoveries, limitations). The episode should feel like it is investigating something, not reading a Wikipedia page.</p>
+        </div>
+        <div class="req-item">
+          <h3>2) Evidence-based explanation</h3>
+          <p>Build claims with support. Bring in credible sources (scientific papers, expert interviews, reputable organisations). When you present a claim, explain why the evidence supports it.</p>
+        </div>
+        <div class="req-item">
+          <h3>3) Source quality and transparency</h3>
+          <p>Use reliable sources and cross-check key ideas. Be honest about uncertainty and what scientists still do not know. Keep track of sources as you go.</p>
+        </div>
+        <div class="req-item">
+          <h3>4) Accessible communication</h3>
+          <p>Explain terminology. Use analogies carefully (accurate, not misleading). Your goal is clarity, not sounding impressive.</p>
+        </div>
+        <div class="req-item">
+          <h3>5) Production quality</h3>
+          <p>Clear audio matters. Use music or sound effects only if they support the learning and do not distract.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Episode structure -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Structure</div>
+        <h2>Suggested episode structure</h2>
+        <p>You do not have to follow this exactly, but your episode must have a deliberate structure.</p>
+      </div>
+      <div class="structure-list">
+        <div class="structure-item">
+          <h3>1) Hook (0:00–0:45)</h3>
+          <p>A surprising fact, mini-story, or question that earns attention.</p>
+        </div>
+        <div class="structure-item">
+          <h3>2) Framing and driving question (0:45–1:30)</h3>
+          <p>What is this episode trying to figure out? Why does it matter?</p>
+        </div>
+        <div class="structure-item">
+          <h3>3) Background and current understanding (1:30–6:00)</h3>
+          <p>Teach the core ideas your audience needs to follow the rest.</p>
+        </div>
+        <div class="structure-item">
+          <h3>4) The interesting part — uncertainty, controversy, or frontier (6:00–12:00)</h3>
+          <p>Where do scientists disagree? What is hard to measure? What is changing right now? Use evidence and examples.</p>
+        </div>
+        <div class="structure-item">
+          <h3>5) Engagement moment (anywhere)</h3>
+          <p>A thought experiment, hypothetical question, or short interactive moment for listeners.</p>
+        </div>
+        <div class="structure-item">
+          <h3>6) Conclusion (final 1–2 minutes)</h3>
+          <p>Summarise the big idea and implications. End cleanly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6-lesson timeline -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Timeline</div>
+        <h2>6-lesson timeline (in class)</h2>
+        <p>This is the default pacing. If your group uses time outside class, you can go further — but do not fall behind.</p>
+      </div>
+      <div class="timeline-wrap">
+        <table class="timeline-table">
+          <thead>
+            <tr>
+              <th style="width:6rem;">Lesson</th>
+              <th>Goal</th>
+              <th>Exit product</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Form group, choose topic, draft driving question(s)</td>
+              <td>Topic + 1–3 driving questions + rough audience plan</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Initial research sprint (broad — then narrow)</td>
+              <td>Shared research doc with early sources + key ideas</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Deep dive — evidence, examples, explanations</td>
+              <td>Argument map (claims – support – explanations) + outline</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Script drafting + segment planning + transitions</td>
+              <td>Full script draft (or detailed run-of-show)</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Rehearse and record (multiple takes if needed)</td>
+              <td>Raw audio recorded + notes for edits</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Edit, polish, export, final checks</td>
+              <td>Final audio + final source list (APA) + optional show notes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Non-negotiables -->
+    <div class="box-emerald" style="margin-bottom:1rem;">
+      <h2>Non-negotiables</h2>
+      <ul>
+        <li>You must be accurate.</li>
+        <li>You must be understandable to a non-expert.</li>
+        <li>You must show where your ideas came from.</li>
+        <li>You must sound like a coordinated team, not 4 separate mini-presentations.</li>
+      </ul>
+    </div>
+
+  </div>
+</div><!-- /panel-brief -->
+
+<!-- ══════════════════════════════════════════════════════════
+     TAB: Group Roles & Workflow
+══════════════════════════════════════════════════════════ -->
+<div id="panel-roles" class="tab-panel" role="tabpanel" aria-labelledby="tab-roles">
+  <div class="container" style="padding-bottom:3rem;">
+
+    <div class="brief-hero">
+      <h1>Group Roles and Workflow</h1>
+      <p>Strong podcasts are engineered. Your group should assign roles, run a simple workflow, and hold each other to clear deadlines.</p>
+    </div>
+
+    <section>
+      <div class="card" style="margin-bottom:0;">
+        <h3 style="margin-bottom:0.6rem;">How to use this page</h3>
+        <ul class="checklist" style="margin:0;">
+          <li>Watch the short slide deck below (5–7 minutes).</li>
+          <li>Assign roles for your group (roles can overlap).</li>
+          <li><strong>Create one shared document</strong> that tracks tasks, deadlines, sources, and the evolving script.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slideshow -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Slide deck</div>
+        <h2>Roles, workflow, and recording standards</h2>
+      </div>
+      <div class="slideshow-wrap">
+        <div class="slide-header">
+          <div class="slide-hdr-left">
+            <div class="slide-icon" id="slide-icon">👥</div>
+            <div>
+              <div class="slide-title" id="slide-title">Build a podcast team (not just a group)</div>
+              <div class="slide-subtitle" id="slide-subtitle">Roles + workflow = less chaos, better audio</div>
+            </div>
+          </div>
+          <div>
+            <div class="slide-counter-num" id="slide-counter-num">1</div>
+            <div class="slide-counter-of">of 5</div>
+          </div>
+        </div>
+        <div class="slide-body" id="slide-body"></div>
+        <div class="slide-foot">
+          <button class="slide-nav-btn" id="slide-prev" disabled>
+            &#8592; Prev
+          </button>
+          <div class="slide-dots" id="slide-dots">
+            <button class="slide-dot s-active" aria-label="Slide 1"></button>
+            <button class="slide-dot" aria-label="Slide 2"></button>
+            <button class="slide-dot" aria-label="Slide 3"></button>
+            <button class="slide-dot" aria-label="Slide 4"></button>
+            <button class="slide-dot" aria-label="Slide 5"></button>
+          </div>
+          <button class="slide-nav-btn" id="slide-next">
+            Next &#8594;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Static notes -->
+    <div class="roles-notes">
+      <div class="roles-note-card">
+        <h3>Minimum roles (recommended)</h3>
+        <ul>
+          <li>Producer / Project manager (runs timeline, meetings, task tracking)</li>
+          <li>Lead researcher / fact-checker (source quality, accuracy, cross-checking)</li>
+          <li>Script lead (structure, transitions, listener clarity)</li>
+          <li>Audio lead (recording setup, editing, levels, final export)</li>
+          <li class="rn-small">If your group is 2 people, combine roles. If your group is 4, split them cleanly.</li>
+        </ul>
+      </div>
+      <div class="roles-note-card">
+        <h3>Team norms (do this on Day 1)</h3>
+        <ul>
+          <li>Decide where you communicate (one channel only)</li>
+          <li>Decide where you write (one shared doc only)</li>
+          <li>Agree on response time (example: within 24 hours)</li>
+          <li>Set meeting rules: start on time, end on time, leave with assignments</li>
+          <li>Write down deadlines — if it is not written, it does not exist</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /panel-roles -->
+
+<!-- ══════════════════════════════════════════════════════════
+     TAB: Research & Sources
+══════════════════════════════════════════════════════════ -->
+<div id="panel-sources" class="tab-panel" role="tabpanel" aria-labelledby="tab-sources">
+  <div class="container" style="padding-bottom:3rem;">
+
+    <div class="brief-hero">
+      <h1>Research and Sources</h1>
+      <p>Great podcasts are built on great sources. You will create an annotated bibliography that supports your episode with both listenable context and reliable scientific grounding.</p>
+    </div>
+
+    <!-- Source requirements -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Requirements</div>
+        <h2>Source requirement</h2>
+        <p>Your group research base must include at least 4 sources:</p>
+      </div>
+      <div class="sources-grid-2">
+        <div class="sources-card">
+          <h3>2 podcast sources</h3>
+          <ul>
+            <li>These can be episodes from credible science outlets (not random opinion shows)</li>
+            <li>Use them for explanations, analogies, and framing</li>
+            <li>You still must cross-check key claims with non-podcast sources</li>
+          </ul>
+        </div>
+        <div class="sources-card">
+          <h3>2 non-podcast sources</h3>
+          <ul>
+            <li>Peer-reviewed papers, textbooks, university resources, NASA/ESA, reputable research organisations</li>
+            <li>Use these to verify claims and build accurate explanations</li>
+            <li>At least 1 should be a primary or research-grade source if possible</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box-amber">
+        <strong>Rule:</strong> A podcast is not proof. If it matters, verify it.
+      </div>
+    </section>
+
+    <!-- Source quality criteria -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Evaluation</div>
+        <h2>How to judge source quality</h2>
+        <p>Use these fast checks (you do not need every box, but you do need to show you thought about reliability).</p>
+      </div>
+      <div class="sources-grid-2">
+        <div class="sources-card">
+          <h3>Credibility</h3>
+          <ul>
+            <li>Who made it? Are they qualified?</li>
+            <li>Are references provided (or do they cite researchers and studies)?</li>
+            <li>Is the organisation reputable?</li>
+          </ul>
+        </div>
+        <div class="sources-card">
+          <h3>Two-source test</h3>
+          <ul>
+            <li>Do at least 2 credible sources agree on the key claim?</li>
+            <li>If they disagree, can you explain why (different models, uncertainties, older data)?</li>
+          </ul>
+        </div>
+        <div class="sources-card">
+          <h3>Relevance</h3>
+          <ul>
+            <li>Does it actually help answer your driving question?</li>
+            <li>Does it provide a usable example, explanation, or data?</li>
+          </ul>
+        </div>
+        <div class="sources-card">
+          <h3>Bias and uncertainty</h3>
+          <ul>
+            <li>Is it trying to persuade rather than explain?</li>
+            <li>Does it acknowledge limits, uncertainty, or open questions?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bibliography template -->
+    <section>
+      <div class="card">
+        <div class="bib-header-row">
+          <div>
+            <h3 style="margin:0 0 0.4rem;">Annotated bibliography template (2 podcasts + 2 non-podcasts)</h3>
+            <p style="margin:0;color:var(--muted);font-size:0.9rem;">Fill this out as a group or split sources across members, then compile into one final version.</p>
+          </div>
+          <div class="bib-dl-btns">
+            <button class="btn-dl-primary" id="download-bib-doc">⬇ Download (.doc)</button>
+            <button class="btn-dl-secondary" id="download-bib-txt">⬇ Download (.txt)</button>
+          </div>
+        </div>
+        <div class="bib-table-wrap">
+          <table class="bib-table">
+            <thead>
+              <tr>
+                <th>Source type</th>
+                <th>Citation (APA)</th>
+                <th>Summary (relevant points only)</th>
+                <th>Assessment (reliability)</th>
+                <th>Reflection (how it helps your episode)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Podcast 1</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+              </tr>
+              <tr>
+                <td>Podcast 2</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+              </tr>
+              <tr>
+                <td>Non-podcast 1</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+              </tr>
+              <tr>
+                <td>Non-podcast 2</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+                <td class="muted">[Fill in]</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="box-good">
+          <strong>What "good" looks like:</strong> summaries are paraphrased, reliability is justified (not vibes), and reflections explain exactly how the source improves your episode.
+        </div>
+      </div>
+    </section>
+
+    <!-- APA hints -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Formatting</div>
+        <h2>Quick APA hints (enough to get you started)</h2>
+      </div>
+      <div class="apa-grid">
+        <div class="apa-card">
+          <h3>Podcast episode (generic format)</h3>
+          <p>Host, A. A. (Host). (Year, Month Day). Episode title (No. if available) [Audio podcast episode]. In <em>Podcast Show Title</em>. Publisher/Platform. URL</p>
+        </div>
+        <div class="apa-card">
+          <h3>Webpage (generic format)</h3>
+          <p>Organisation or Author. (Year, Month Day). Title of page. <em>Site Name</em>. URL</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div><!-- /panel-sources -->
 
 <footer class="page-footer">
   <div class="container">
@@ -1078,6 +1744,266 @@ G. FINAL VERDICT
     a.remove();
     URL.revokeObjectURL(url);
   });
+
+  /* ── Tab switching ──────────────────────────────────────── */
+  (function () {
+    const tabs   = document.querySelectorAll('.tab[data-tab]');
+    const panels = document.querySelectorAll('.tab-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+
+        // Update tab button states
+        tabs.forEach(t => {
+          const isActive = t.dataset.tab === target;
+          t.classList.toggle('active', isActive);
+          t.classList.toggle('inactive', !isActive);
+          t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        // Show / hide panels
+        panels.forEach(p => {
+          p.classList.toggle('active', p.id === 'panel-' + target);
+        });
+
+        // Scroll to top of content
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  })();
+
+  /* ── Roles slideshow ────────────────────────────────────── */
+  (function () {
+    const slides = [
+      {
+        icon: '👥',
+        title: 'Build a podcast team (not just a group)',
+        subtitle: 'Roles + workflow = less chaos, better audio',
+        html: `<div class="s-vstack">
+          <div class="s-hl-blue">
+            Your job is to teach something real in 10–15 minutes. That only works if your team runs a simple system: clear roles, clear deadlines, and one shared place for the script and sources.
+          </div>
+          <div class="s-grid-3">
+            <div class="s-card">
+              <div class="s-card-title">1) Roles</div>
+              <div class="s-card-sub">Who owns what?</div>
+            </div>
+            <div class="s-card">
+              <div class="s-card-title">2) Workflow</div>
+              <div class="s-card-sub">What happens when?</div>
+            </div>
+            <div class="s-card">
+              <div class="s-card-title">3) Quality control</div>
+              <div class="s-card-sub">How do we stay accurate?</div>
+            </div>
+          </div>
+        </div>`
+      },
+      {
+        icon: '📋',
+        title: 'Suggested roles',
+        subtitle: 'Roles can overlap. Gaps are dangerous.',
+        html: `<div class="s-vstack">
+          <div class="s-hl-teal">
+            <strong>Best pattern for 3–4 students:</strong> 4 roles, 1 owner each, then share the work.
+          </div>
+          <div class="s-grid-2">
+            <div class="s-card">
+              <div class="s-card-title">Producer / Project manager</div>
+              <ul><li>Runs timeline and meetings</li><li>Tracks tasks and deadlines</li><li>Protects time for recording/editing</li></ul>
+            </div>
+            <div class="s-card">
+              <div class="s-card-title">Lead researcher / Fact-checker</div>
+              <ul><li>Finds high-quality sources</li><li>Cross-checks key claims</li><li>Builds the source list (APA)</li></ul>
+            </div>
+            <div class="s-card">
+              <div class="s-card-title">Script lead</div>
+              <ul><li>Designs episode structure</li><li>Writes transitions and clarifies terms</li><li>Makes sure it flows as one voice</li></ul>
+            </div>
+            <div class="s-card">
+              <div class="s-card-title">Audio lead</div>
+              <ul><li>Recording setup and mic discipline</li><li>Edits (levels, noise, cuts)</li><li>Exports final audio cleanly</li></ul>
+            </div>
+          </div>
+          <div class="s-hl-amber">
+            <strong>Rule:</strong> if nobody owns it, it will not happen. Assign ownership first, then share the workload.
+          </div>
+        </div>`
+      },
+      {
+        icon: '✨',
+        title: 'Workflow: the 6-lesson pipeline',
+        subtitle: 'Do not leave editing for the last minute',
+        html: `<div class="s-vstack">
+          <div class="s-card">
+            <ol style="margin:0;padding-left:1.25rem;color:var(--muted);font-size:0.9rem;display:grid;gap:0.6rem;">
+              <li><strong style="color:var(--text)">Lesson 1:</strong> topic + driving questions + role assignment + shared doc created</li>
+              <li><strong style="color:var(--text)">Lesson 2:</strong> research sprint + collect examples/analogies + outline draft</li>
+              <li><strong style="color:var(--text)">Lesson 3:</strong> deep dive + evidence mapping + tighten the outline</li>
+              <li><strong style="color:var(--text)">Lesson 4:</strong> script writing + transitions + define terms + rehearse tricky explanations</li>
+              <li><strong style="color:var(--text)">Lesson 5:</strong> rehearsal + record multiple takes + mark edits</li>
+              <li><strong style="color:var(--text)">Lesson 6:</strong> edit + polish + export + final accuracy check</li>
+            </ol>
+          </div>
+          <div class="s-hl-blue">
+            The mistake most groups make: writing a script that is too long, then trying to rush the recording. Keep it tight early so editing is clean later.
+          </div>
+        </div>`
+      },
+      {
+        icon: '🎙️',
+        title: 'Recording standards',
+        subtitle: 'You can fix many things in editing — but not everything',
+        html: `<div class="s-vstack">
+          <div class="s-grid-2">
+            <div class="s-card">
+              <div class="s-card-title">Mic discipline</div>
+              <ul><li>Consistent distance from mic</li><li>Speak across the mic, not directly into it</li><li>Pause instead of saying "um" repeatedly</li></ul>
+            </div>
+            <div class="s-card">
+              <div class="s-card-title">Environment</div>
+              <ul><li>Quiet room (no fans, AC blasts, hallway noise)</li><li>Phones on silent</li><li>Do a 15-second test recording first</li></ul>
+            </div>
+          </div>
+          <div class="s-hl-teal">
+            <strong>Minimum check:</strong> If listeners struggle to hear words clearly, they will stop caring about the science.
+          </div>
+        </div>`
+      },
+      {
+        icon: '✅',
+        title: 'Quality control: accuracy and clarity',
+        subtitle: 'Sound confident only when you are correct',
+        html: `<div class="s-vstack">
+          <div class="s-card">
+            <div class="s-card-title" style="margin-bottom:0.75rem;">Before you export final audio, do this</div>
+            <ul style="margin:0;padding-left:1.1rem;color:var(--muted);font-size:0.9rem;display:grid;gap:0.4rem;list-style:disc;">
+              <li>Cross-check the 10 most important claims against at least 2 sources</li>
+              <li>Define key terms the first time they appear</li>
+              <li>Remove fluff and repeated ideas</li>
+              <li>Listen once at 1.25× speed: if it becomes confusing, it is too dense</li>
+            </ul>
+          </div>
+          <div class="s-hl-amber">
+            <strong>Simple test:</strong> Could a smart Grade 9 student follow the story? If not, rewrite the explanation.
+          </div>
+        </div>`
+      }
+    ];
+
+    let current = 0;
+    const bodyEl    = document.getElementById('slide-body');
+    const iconEl    = document.getElementById('slide-icon');
+    const titleEl   = document.getElementById('slide-title');
+    const subEl     = document.getElementById('slide-subtitle');
+    const counterEl = document.getElementById('slide-counter-num');
+    const prevBtn   = document.getElementById('slide-prev');
+    const nextBtn   = document.getElementById('slide-next');
+    const dots      = document.querySelectorAll('.slide-dot');
+
+    function renderSlide() {
+      const s = slides[current];
+      iconEl.textContent    = s.icon;
+      titleEl.textContent   = s.title;
+      subEl.textContent     = s.subtitle;
+      counterEl.textContent = current + 1;
+      bodyEl.innerHTML      = s.html;
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === slides.length - 1;
+      dots.forEach((d, i) => d.classList.toggle('s-active', i === current));
+    }
+
+    prevBtn.addEventListener('click', () => { if (current > 0) { current--; renderSlide(); } });
+    nextBtn.addEventListener('click', () => { if (current < slides.length - 1) { current++; renderSlide(); } });
+    dots.forEach((d, i) => d.addEventListener('click', () => { current = i; renderSlide(); }));
+
+    renderSlide();
+  })();
+
+  /* ── Bibliography downloads ─────────────────────────────── */
+  (function () {
+    const bibDocHtml = `<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Astrophysics Podcast - Annotated Bibliography Template</title></head>
+<body style="font-family:Arial,sans-serif;">
+<h2>Astrophysics Podcast - Annotated Bibliography</h2>
+<p><strong>Minimum sources:</strong> 2 podcasts + 2 non-podcast sources</p>
+<p><strong>Instructions:</strong> Paraphrase summaries. Assess reliability using the criteria. Explain how each source helps your episode.</p>
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;">
+<tr style="background:#eeeeee;">
+  <th style="width:120px;text-align:left;">Source type</th>
+  <th style="text-align:left;">Citation (APA)</th>
+  <th style="text-align:left;">Summary (relevant points only)</th>
+  <th style="text-align:left;">Assessment (reliability)</th>
+  <th style="text-align:left;">Reflection (how it helps your episode)</th>
+</tr>
+<tr><td><strong>Podcast 1</strong></td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td></tr>
+<tr><td><strong>Podcast 2</strong></td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td></tr>
+<tr><td><strong>Non-podcast 1</strong></td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td></tr>
+<tr><td><strong>Non-podcast 2</strong></td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td></tr>
+</table>
+<h3>Reliability criteria (quick)</h3>
+<ul>
+  <li>Who authored it and are they credible?</li>
+  <li>Does it reference evidence and other sources?</li>
+  <li>Two-source test: do credible sources agree on key claims?</li>
+  <li>Is it relevant to your driving question?</li>
+  <li>Does it acknowledge uncertainty or limits?</li>
+</ul>
+</body></html>`;
+
+    const bibTxt = `ASTROPHYSICS PODCAST - ANNOTATED BIBLIOGRAPHY (2 podcasts + 2 non-podcasts)
+
+Instructions:
+- Summaries must be paraphrased and relevant.
+- Assess reliability (author/org credibility, references, two-source test, bias, uncertainty).
+- Reflection explains how the source improves your episode.
+
+SOURCE 1 (Podcast 1)
+Citation (APA):
+Summary:
+Assessment (reliability):
+Reflection (usefulness):
+
+SOURCE 2 (Podcast 2)
+Citation (APA):
+Summary:
+Assessment (reliability):
+Reflection (usefulness):
+
+SOURCE 3 (Non-podcast 1)
+Citation (APA):
+Summary:
+Assessment (reliability):
+Reflection (usefulness):
+
+SOURCE 4 (Non-podcast 2)
+Citation (APA):
+Summary:
+Assessment (reliability):
+Reflection (usefulness):
+`;
+
+    function downloadBlob(filename, mimeType, content) {
+      const blob = new Blob([content], { type: mimeType });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById('download-bib-doc').addEventListener('click', () => {
+      downloadBlob('Astrophysics_Podcast_Annotated_Bibliography_Template.doc', 'application/msword', bibDocHtml);
+    });
+    document.getElementById('download-bib-txt').addEventListener('click', () => {
+      downloadBlob('Astrophysics_Podcast_Annotated_Bibliography_Template.txt', 'text/plain;charset=utf-8', bibTxt);
+    });
+  })();
 </script>
 </body>
 </html>
