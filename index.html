@@ -1507,10 +1507,15 @@ G. FINAL VERDICT
         <p>Fill this out as a group or split sources across members, then compile into one final version.</p>
       </div>
 
-      <!-- Download buttons -->
-      <div class="bib-dl-btns" style="margin-bottom:1.5rem;">
-        <button class="btn-dl-primary" id="download-bib-docx">⬇ Download (.docx)</button>
-        <a class="btn-dl-secondary" href="https://docs.google.com/document/create?title=Astrophysics+Podcast+%E2%80%93+Annotated+Bibliography" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">↗ Open in Google Docs</a>
+      <!-- Download / copy buttons -->
+      <div style="margin-bottom:1.5rem;">
+        <div class="bib-dl-btns" style="margin-bottom:0.6rem;">
+          <button class="btn-dl-primary" id="download-bib-docx">⬇ Download (.docx)</button>
+          <button class="btn-dl-secondary" id="copy-bib-gdocs">📋 Copy for Google Docs</button>
+        </div>
+        <p id="bib-copy-status" style="margin:0;color:var(--muted);font-size:0.82rem;">
+          Paste into any Google Doc with <strong style="color:var(--text);">Ctrl+V</strong> (or Cmd+V on Mac) — the table structure will be preserved.
+        </p>
       </div>
 
       <!-- Podcast 1 -->
@@ -2124,71 +2129,249 @@ G. FINAL VERDICT
     renderSlide();
   })();
 
-  /* ── Bibliography download (.docx) ─────────────────────── */
+  /* ── Bibliography download – real OOXML DOCX via JSZip ─── */
   (function () {
-    function sourceBlock(label) {
+
+    /* XML helpers */
+    function esc(s) {
+      return String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function wRun(text, opts = {}) {
+      const rp = [
+        opts.bold   ? '<w:b/><w:bCs/>'                                        : '',
+        opts.italic ? '<w:i/><w:iCs/>'                                        : '',
+        opts.size   ? `<w:sz w:val="${opts.size}"/><w:szCs w:val="${opts.size}"/>` : '',
+        opts.color  ? `<w:color w:val="${opts.color}"/>`                      : '',
+      ].join('');
+      return `<w:r>${rp ? `<w:rPr>${rp}</w:rPr>` : ''}<w:t xml:space="preserve">${esc(text)}</w:t></w:r>`;
+    }
+
+    function wPara(content = '', spacingAfter) {
+      const pp = spacingAfter !== undefined
+        ? `<w:pPr><w:spacing w:after="${spacingAfter}"/></w:pPr>` : '';
+      return `<w:p>${pp}${content}</w:p>`;
+    }
+
+    /* Table building */
+    const LABEL_W = 2500, VALUE_W = 6860;
+    const FIELDS = [
+      ['Citation',              '(APA)'],
+      ['Summary',               'Briefly describe the main and important points'],
+      ['Assessment / evaluation', "Assess the reliability of this source. How do you know it\u2019s good?"],
+      ['Reflection',            'How will this source be helpful towards your research topic?'],
+    ];
+
+    function wLabelCell(name, desc) {
+      return `<w:tc>
+        <w:tcPr>
+          <w:tcW w:w="${LABEL_W}" w:type="dxa"/>
+          <w:shd w:val="clear" w:color="auto" w:fill="E8EAF6"/>
+        </w:tcPr>
+        ${wPara(wRun(name, { bold: true, size: 20 }), 60)}
+        ${wPara(wRun(desc, { italic: true, size: 18, color: '555555' }), 0)}
+      </w:tc>`;
+    }
+
+    function wValueCell() {
+      return `<w:tc>
+        <w:tcPr><w:tcW w:w="${VALUE_W}" w:type="dxa"/></w:tcPr>
+        ${wPara('', 0)}${wPara('', 0)}${wPara('', 0)}
+      </w:tc>`;
+    }
+
+    function wSourceBlock(title) {
+      const tblPr = `<w:tblPr>
+        <w:tblW w:w="${LABEL_W + VALUE_W}" w:type="dxa"/>
+        <w:tblBorders>
+          <w:top    w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+          <w:left   w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+          <w:bottom w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+          <w:right  w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+          <w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+          <w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+        </w:tblBorders>
+        <w:tblCellMar>
+          <w:top    w:w="100" w:type="dxa"/>
+          <w:left   w:w="120" w:type="dxa"/>
+          <w:bottom w:w="100" w:type="dxa"/>
+          <w:right  w:w="120" w:type="dxa"/>
+        </w:tblCellMar>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="${LABEL_W}"/>
+        <w:gridCol w:w="${VALUE_W}"/>
+      </w:tblGrid>`;
+
+      const rows = FIELDS.map(([n, d]) =>
+        `<w:tr>${wLabelCell(n, d)}${wValueCell()}</w:tr>`
+      ).join('');
+
+      return [
+        wPara(wRun(title, { bold: true, size: 28 }), 80),
+        `<w:tbl>${tblPr}${rows}</w:tbl>`,
+        wPara('', 300),
+      ].join('');
+    }
+
+    /* Assemble the DOCX ZIP */
+    async function buildDocx() {
+      const body = [
+        wPara(wRun('Astrophysics Podcast \u2013 Annotated Bibliography', { bold: true, size: 36 }), 200),
+        wPara(
+          wRun('Instructions: ', { bold: true }) +
+          wRun('Paraphrase summaries. Assess reliability with evidence. Explain exactly how each source improves your episode.'),
+          300
+        ),
+        wSourceBlock('Podcast 1'),
+        wSourceBlock('Podcast 2'),
+        wSourceBlock('Non-podcast 1'),
+        wSourceBlock('Non-podcast 2'),
+      ].join('');
+
+      const docXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document
+  xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+  xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <w:body>
+    ${body}
+    <w:sectPr>
+      <w:pgSz w:w="12240" w:h="15840"/>
+      <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440"
+               w:header="720" w:footer="720" w:gutter="0"/>
+    </w:sectPr>
+  </w:body>
+</w:document>`;
+
+      const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml"  ContentType="application/xml"/>
+  <Override PartName="/word/document.xml"
+    ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+</Types>`;
+
+      const rels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1"
+    Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument"
+    Target="word/document.xml"/>
+</Relationships>`;
+
+      const wordRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"/>`;
+
+      const zip = new JSZip();
+      zip.file('[Content_Types].xml', contentTypes);
+      zip.file('_rels/.rels', rels);
+      zip.folder('word').file('document.xml', docXml);
+      zip.folder('word').folder('_rels').file('document.xml.rels', wordRels);
+
+      return zip.generateAsync({
+        type: 'blob',
+        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+    }
+
+    document.getElementById('download-bib-docx').addEventListener('click', async () => {
+      const btn = document.getElementById('download-bib-docx');
+      btn.textContent = '⏳ Generating…';
+      btn.disabled = true;
+      try {
+        /* Lazy-load JSZip on first use */
+        if (!window.JSZip) {
+          await new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+            s.onload = resolve;
+            s.onerror = reject;
+            document.head.appendChild(s);
+          });
+        }
+        const blob = await buildDocx();
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = 'Astrophysics_Podcast_Annotated_Bibliography.docx';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      } finally {
+        btn.innerHTML = '⬇ Download (.docx)';
+        btn.disabled = false;
+      }
+    });
+
+  })();
+
+  /* ── Copy bibliography as HTML for Google Docs ───────────── */
+  (function () {
+    const FIELDS = [
+      { name: 'Citation',               desc: '(APA)' },
+      { name: 'Summary',                desc: 'Briefly describe the main and important points' },
+      { name: 'Assessment / evaluation', desc: "Assess the reliability of this source. How do you know it\u2019s good?" },
+      { name: 'Reflection',             desc: 'How will this source be helpful towards your research topic?' },
+    ];
+
+    function sourceTableHtml(label) {
+      const rows = FIELDS.map(f => `
+        <tr>
+          <td style="width:190px;background-color:#e8eaf6;padding:8px 12px;vertical-align:top;border:1px solid #bbb;font-size:10pt;">
+            <b>${f.name}</b><br>
+            <i style="font-size:9pt;color:#555;">${f.desc}</i>
+          </td>
+          <td style="padding:8px 12px;border:1px solid #bbb;font-size:10pt;min-width:360px;">
+            <br><br>
+          </td>
+        </tr>`).join('');
+
       return `
-<h3 style="background:#e8eaf6;padding:8px 12px;margin:24px 0 0;">${label}</h3>
-<table border="1" cellpadding="10" cellspacing="0" style="border-collapse:collapse;width:100%;margin-bottom:0;">
-  <tr>
-    <td style="width:180px;background:#f5f5f5;vertical-align:top;">
-      <strong>Citation</strong><br><span style="font-size:11px;font-style:italic;">(APA)</span>
-    </td>
-    <td style="min-height:60px;">&nbsp;</td>
-  </tr>
-  <tr>
-    <td style="background:#f5f5f5;vertical-align:top;">
-      <strong>Summary</strong><br><span style="font-size:11px;font-style:italic;">Briefly describe the main and important points</span>
-    </td>
-    <td style="min-height:80px;">&nbsp;</td>
-  </tr>
-  <tr>
-    <td style="background:#f5f5f5;vertical-align:top;">
-      <strong>Assessment / evaluation</strong><br><span style="font-size:11px;font-style:italic;">Assess the reliability of this source. How do you know it's good?</span>
-    </td>
-    <td style="min-height:80px;">&nbsp;</td>
-  </tr>
-  <tr>
-    <td style="background:#f5f5f5;vertical-align:top;">
-      <strong>Reflection</strong><br><span style="font-size:11px;font-style:italic;">How will this source be helpful towards your research topic?</span>
-    </td>
-    <td style="min-height:80px;">&nbsp;</td>
-  </tr>
-</table>`;
+        <table border="1" style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;margin-bottom:16px;">
+          <tr>
+            <td colspan="2" style="background-color:#c5cae9;padding:8px 12px;border:1px solid #999;font-size:12pt;font-weight:bold;">${label}</td>
+          </tr>
+          ${rows}
+        </table>`;
     }
 
-    const bibDocHtml = `<!doctype html>
-<html>
-<head><meta charset="utf-8">
-<title>Astrophysics Podcast – Annotated Bibliography</title>
-</head>
-<body style="font-family:Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 20px;">
-<h2>Astrophysics Podcast – Annotated Bibliography</h2>
-<p><strong>Instructions:</strong> Paraphrase summaries. Assess reliability with evidence. Explain exactly how each source improves your episode.</p>
-${sourceBlock('Podcast 1')}
-${sourceBlock('Podcast 2')}
-${sourceBlock('Non-podcast 1')}
-${sourceBlock('Non-podcast 2')}
-</body></html>`;
+    const SOURCES = ['Podcast 1', 'Podcast 2', 'Non-podcast 1', 'Non-podcast 2'];
 
-    function downloadBlob(filename, mimeType, content) {
-      const blob = new Blob([content], { type: mimeType });
-      const url  = URL.createObjectURL(blob);
-      const a    = document.createElement('a');
-      a.href     = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+    function buildHtml() {
+      return `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>
+        <p style="font-size:16pt;font-family:Arial,sans-serif;"><b>Astrophysics Podcast \u2013 Annotated Bibliography</b></p>
+        <p style="font-size:10pt;font-family:Arial,sans-serif;margin-bottom:16px;">
+          <b>Instructions:</b> Paraphrase summaries. Assess reliability with evidence.
+          Explain exactly how each source improves your episode.
+        </p>
+        ${SOURCES.map(sourceTableHtml).join('')}
+      </body></html>`;
     }
 
-    document.getElementById('download-bib-docx').addEventListener('click', () => {
-      downloadBlob(
-        'Astrophysics_Podcast_Annotated_Bibliography_Template.docx',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        bibDocHtml
-      );
+    document.getElementById('copy-bib-gdocs').addEventListener('click', async () => {
+      const btn    = document.getElementById('copy-bib-gdocs');
+      const status = document.getElementById('bib-copy-status');
+
+      try {
+        const html = buildHtml();
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }) }),
+        ]);
+        btn.textContent = '✓ Copied!';
+        status.innerHTML = '<strong style="color:#5eead4;">Copied.</strong> Open a Google Doc and press Ctrl+V (or Cmd+V) to paste.';
+        setTimeout(() => {
+          btn.innerHTML = '📋 Copy for Google Docs';
+          status.innerHTML = 'Paste into any Google Doc with <strong style="color:var(--text);">Ctrl+V</strong> (or Cmd+V on Mac) \u2014 the table structure will be preserved.';
+        }, 4000);
+      } catch {
+        btn.textContent = '📋 Copy for Google Docs';
+        status.innerHTML = '<span style="color:#fb923c;">Copy not available in this browser.</span> Try downloading the .docx instead.';
+        setTimeout(() => {
+          status.innerHTML = 'Paste into any Google Doc with <strong style="color:var(--text);">Ctrl+V</strong> (or Cmd+V on Mac) \u2014 the table structure will be preserved.';
+        }, 4000);
+      }
     });
   })();
 </script>
