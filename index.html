@@ -558,7 +558,7 @@
       background: linear-gradient(135deg, #edf0ff 25%, #c084fc 65%, #2dd4bf 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .brief-hero p { color: var(--muted); font-size: 0.97rem; max-width: 72ch; margin: 0; }
+    .brief-hero p { color: var(--muted); font-size: 0.97rem; margin: 0; }
 
     .info-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin: 1rem 0; }
     .info-card {
@@ -760,6 +760,73 @@
     }
     .apa-card h3 { margin: 0 0 0.5rem; font-size: 0.94rem; font-weight: 600; }
     .apa-card p { margin: 0; color: var(--muted); font-size: 0.87rem; line-height: 1.7; }
+
+    /* ── Topic item tooltips ────────────────────────────────── */
+    .topic-item { position: relative; cursor: default; }
+    .topic-tip {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      width: 280px;
+      background: #0b1428;
+      border: 1px solid rgba(129,140,248,0.35);
+      border-radius: 12px;
+      padding: 0.9rem 1.05rem;
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.6;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(5px);
+      transition: opacity 0.18s, transform 0.18s;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+    }
+    .topic-item:nth-child(odd)  .topic-tip { left: 0; }
+    .topic-item:nth-child(even) .topic-tip { right: 0; }
+    .topic-tip::after {
+      content: '';
+      position: absolute;
+      top: 100%; left: 20px;
+      border: 6px solid transparent;
+      border-top-color: rgba(129,140,248,0.35);
+    }
+    .topic-item:nth-child(even) .topic-tip::after { left: auto; right: 20px; }
+    .topic-item:hover .topic-tip,
+    .topic-item:focus .topic-tip { opacity: 1; transform: translateY(0); }
+
+    /* ── Annotated bibliography blocks ──────────────────────── */
+    .annot-block {
+      border: 1px solid rgba(129,140,248,0.15);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .annot-block:last-of-type { margin-bottom: 0; }
+    .annot-header {
+      background: linear-gradient(135deg, rgba(129,140,248,0.18), rgba(192,132,252,0.12));
+      padding: 0.85rem 1.25rem;
+      font-weight: 700; font-size: 1rem;
+      border-bottom: 1px solid rgba(129,140,248,0.15);
+    }
+    .annot-table { width: 100%; border-collapse: collapse; }
+    .annot-label-cell {
+      width: 210px; min-width: 160px;
+      background: rgba(5,8,16,0.55);
+      border-right: 1px solid rgba(129,140,248,0.1);
+      border-bottom: 1px solid rgba(129,140,248,0.08);
+      padding: 1rem 1.25rem;
+      vertical-align: top;
+    }
+    .annot-table tr:last-child .annot-label-cell,
+    .annot-table tr:last-child .annot-value-cell { border-bottom: none; }
+    .annot-label-name { font-weight: 700; font-size: 0.92rem; display: block; color: var(--text); }
+    .annot-label-desc { font-size: 0.79rem; color: var(--muted); margin-top: 0.3rem; display: block; font-style: italic; line-height: 1.45; }
+    .annot-value-cell {
+      background: var(--panel);
+      border-bottom: 1px solid rgba(129,140,248,0.08);
+      padding: 1rem 1.25rem;
+      min-height: 72px;
+    }
 
     /* ── Responsive ─────────────────────────────────────────── */
     @media (max-width: 900px) {
@@ -1088,16 +1155,47 @@ G. FINAL VERDICT
         <p>You can choose one of these, or propose something else (with approval).</p>
       </div>
       <div class="topic-grid">
-        <div class="topic-item">Exoplanets and the search for life</div>
-        <div class="topic-item">Black holes and what we can actually know</div>
-        <div class="topic-item">The life cycle of stars</div>
-        <div class="topic-item">Dark matter and dark energy</div>
-        <div class="topic-item">The Big Bang and the evolution of the universe</div>
-        <div class="topic-item">Cosmic microwave background radiation</div>
-        <div class="topic-item">Neutron stars and pulsars</div>
-        <div class="topic-item">Gravitational waves</div>
-        <div class="topic-item">Space exploration and missions</div>
-        <div class="topic-item">Multiverse ideas (careful — define what is science vs speculation)</div>
+
+        <div class="topic-item" tabindex="0">Exoplanets and the search for life
+          <div class="topic-tip">Thousands of worlds orbit distant stars — and a handful sit right in the "Goldilocks zone" where liquid water could exist. Could there be life out there, and how on Earth (or off it) would we ever know? This episode hunts for life's fingerprints in alien atmospheres.</div>
+        </div>
+
+        <div class="topic-item" tabindex="0">Black holes and what we can actually know
+          <div class="topic-tip">They swallow light, bend time, and sit at the heart of almost every galaxy — yet we have never directly seen one. So what do scientists actually know, and where does hard evidence end and educated guessing begin? Spoiler: the answer might surprise you.</div>
+        </div>
+
+        <div class="topic-item" tabindex="0">The life cycle of stars
+          <div class="topic-tip">Every atom of iron in your blood was forged inside a dying star. From a cold cloud of gas to a supernova explosion billions of years later, this episode traces the full dramatic life story of the objects that built the universe — including us.</div>
+        </div>
+
+        <div class="topic-item" tabindex="0">Dark matter and dark energy
+          <div class="topic-tip">About 95% of the universe is made of stuff we cannot see, detect directly, or fully explain. Dark matter holds galaxies together; dark energy is ripping the universe apart. What do we actually know — and why are scientists so confident about something so invisible?</div>
+        </div>
+
+        <div class="topic-item" tabindex="0">The Big Bang and the evolution of the universe
+          <div class="topic-tip">Fourteen billion years ago, everything that exists was compressed into a point smaller than an atom — and then it wasn't. This episode explores the evidence behind the Big Bang, how the universe grew from a hot soup of particles into stars, galaxies, and eventually you.</div>
+        </div>
+
+        <div class="topic-item" tabindex="0">Cosmic microwave background radiation
+          <div class="topic-tip">There is a faint glow filling the entire sky — the afterglow of the Big Bang itself, still visible today. This episode digs into what the CMB is, how scientists mapped it, and why tiny temperature differences in ancient light tell us everything about the structure of the cosmos.</div>
+        </div>
+
+        <div class="topic-item" tabindex="0">Neutron stars and pulsars
+          <div class="topic-tip">When a massive star dies, it can leave behind an object the size of a city but heavier than the Sun — spinning hundreds of times a second and beaming radio waves like a lighthouse. This episode explores the most extreme objects in the universe that aren't black holes.</div>
+        </div>
+
+        <div class="topic-item" tabindex="0">Gravitational waves
+          <div class="topic-tip">For the first time in history, we are listening to the universe rather than just watching it. In 2015, scientists detected a ripple in spacetime from two black holes colliding a billion light-years away. This episode explores what gravitational waves are and what they are already teaching us.</div>
+        </div>
+
+        <div class="topic-item" tabindex="0">Space exploration and missions
+          <div class="topic-tip">From the first satellite to rovers crawling across Mars, humanity has been reaching outward for less than a century — and the pace is accelerating. This episode examines where we have been, what we have learned, and the audacious missions being planned right now.</div>
+        </div>
+
+        <div class="topic-item" tabindex="0">Multiverse ideas (careful — define what is science vs speculation)
+          <div class="topic-tip">What if our universe is just one of an infinite number? It sounds like science fiction — and the line between legitimate physics and speculation here is genuinely blurry. This episode maps out what the multiverse hypothesis actually claims, what evidence exists, and where science stops and philosophy begins.</div>
+        </div>
+
       </div>
     </section>
 
@@ -1247,9 +1345,9 @@ G. FINAL VERDICT
       <div class="card" style="margin-bottom:0;">
         <h3 style="margin-bottom:0.6rem;">How to use this page</h3>
         <ul class="checklist" style="margin:0;">
-          <li>Watch the short slide deck below (5–7 minutes).</li>
+          <li>Click through the slide deck below.</li>
           <li>Assign roles for your group (roles can overlap).</li>
-          <li><strong>Create one shared document</strong> that tracks tasks, deadlines, sources, and the evolving script.</li>
+          <li><strong>Create one shared document</strong> that tracks tasks, deadlines, sources, and the evolving script. Share it with your teacher.</li>
         </ul>
       </div>
     </section>
@@ -1403,63 +1501,168 @@ G. FINAL VERDICT
 
     <!-- Bibliography template -->
     <section>
-      <div class="card">
-        <div class="bib-header-row">
-          <div>
-            <h3 style="margin:0 0 0.4rem;">Annotated bibliography template (2 podcasts + 2 non-podcasts)</h3>
-            <p style="margin:0;color:var(--muted);font-size:0.9rem;">Fill this out as a group or split sources across members, then compile into one final version.</p>
-          </div>
-          <div class="bib-dl-btns">
-            <button class="btn-dl-primary" id="download-bib-doc">⬇ Download (.doc)</button>
-            <button class="btn-dl-secondary" id="download-bib-txt">⬇ Download (.txt)</button>
-          </div>
-        </div>
-        <div class="bib-table-wrap">
-          <table class="bib-table">
-            <thead>
-              <tr>
-                <th>Source type</th>
-                <th>Citation (APA)</th>
-                <th>Summary (relevant points only)</th>
-                <th>Assessment (reliability)</th>
-                <th>Reflection (how it helps your episode)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Podcast 1</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-              </tr>
-              <tr>
-                <td>Podcast 2</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-              </tr>
-              <tr>
-                <td>Non-podcast 1</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-              </tr>
-              <tr>
-                <td>Non-podcast 2</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-                <td class="muted">[Fill in]</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="box-good">
-          <strong>What "good" looks like:</strong> summaries are paraphrased, reliability is justified (not vibes), and reflections explain exactly how the source improves your episode.
-        </div>
+      <div class="section-heading">
+        <div class="section-label">Template</div>
+        <h2>Annotated bibliography template</h2>
+        <p>Fill this out as a group or split sources across members, then compile into one final version.</p>
+      </div>
+
+      <!-- Download buttons -->
+      <div class="bib-dl-btns" style="margin-bottom:1.5rem;">
+        <button class="btn-dl-primary" id="download-bib-docx">⬇ Download (.docx)</button>
+        <a class="btn-dl-secondary" href="https://docs.google.com/document/create?title=Astrophysics+Podcast+%E2%80%93+Annotated+Bibliography" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">↗ Open in Google Docs</a>
+      </div>
+
+      <!-- Podcast 1 -->
+      <div class="annot-block">
+        <div class="annot-header">Podcast 1</div>
+        <table class="annot-table">
+          <tbody>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Citation</span>
+                <span class="annot-label-desc">(APA)</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Summary</span>
+                <span class="annot-label-desc">Briefly describe the main and important points</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Assessment / evaluation</span>
+                <span class="annot-label-desc">Assess the reliability of this source. How do you know it's good?</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Reflection</span>
+                <span class="annot-label-desc">How will this source be helpful towards your research topic?</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Podcast 2 -->
+      <div class="annot-block">
+        <div class="annot-header">Podcast 2</div>
+        <table class="annot-table">
+          <tbody>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Citation</span>
+                <span class="annot-label-desc">(APA)</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Summary</span>
+                <span class="annot-label-desc">Briefly describe the main and important points</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Assessment / evaluation</span>
+                <span class="annot-label-desc">Assess the reliability of this source. How do you know it's good?</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Reflection</span>
+                <span class="annot-label-desc">How will this source be helpful towards your research topic?</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Non-podcast 1 -->
+      <div class="annot-block">
+        <div class="annot-header">Non-podcast 1</div>
+        <table class="annot-table">
+          <tbody>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Citation</span>
+                <span class="annot-label-desc">(APA)</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Summary</span>
+                <span class="annot-label-desc">Briefly describe the main and important points</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Assessment / evaluation</span>
+                <span class="annot-label-desc">Assess the reliability of this source. How do you know it's good?</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Reflection</span>
+                <span class="annot-label-desc">How will this source be helpful towards your research topic?</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Non-podcast 2 -->
+      <div class="annot-block">
+        <div class="annot-header">Non-podcast 2</div>
+        <table class="annot-table">
+          <tbody>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Citation</span>
+                <span class="annot-label-desc">(APA)</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Summary</span>
+                <span class="annot-label-desc">Briefly describe the main and important points</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Assessment / evaluation</span>
+                <span class="annot-label-desc">Assess the reliability of this source. How do you know it's good?</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+            <tr>
+              <td class="annot-label-cell">
+                <span class="annot-label-name">Reflection</span>
+                <span class="annot-label-desc">How will this source be helpful towards your research topic?</span>
+              </td>
+              <td class="annot-value-cell"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="box-good">
+        <strong>What "good" looks like:</strong> summaries are paraphrased, reliability is justified (not vibes), and reflections explain exactly how the source improves your episode.
       </div>
     </section>
 
@@ -1921,69 +2124,52 @@ G. FINAL VERDICT
     renderSlide();
   })();
 
-  /* ── Bibliography downloads ─────────────────────────────── */
+  /* ── Bibliography download (.docx) ─────────────────────── */
   (function () {
+    function sourceBlock(label) {
+      return `
+<h3 style="background:#e8eaf6;padding:8px 12px;margin:24px 0 0;">${label}</h3>
+<table border="1" cellpadding="10" cellspacing="0" style="border-collapse:collapse;width:100%;margin-bottom:0;">
+  <tr>
+    <td style="width:180px;background:#f5f5f5;vertical-align:top;">
+      <strong>Citation</strong><br><span style="font-size:11px;font-style:italic;">(APA)</span>
+    </td>
+    <td style="min-height:60px;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="background:#f5f5f5;vertical-align:top;">
+      <strong>Summary</strong><br><span style="font-size:11px;font-style:italic;">Briefly describe the main and important points</span>
+    </td>
+    <td style="min-height:80px;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="background:#f5f5f5;vertical-align:top;">
+      <strong>Assessment / evaluation</strong><br><span style="font-size:11px;font-style:italic;">Assess the reliability of this source. How do you know it's good?</span>
+    </td>
+    <td style="min-height:80px;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="background:#f5f5f5;vertical-align:top;">
+      <strong>Reflection</strong><br><span style="font-size:11px;font-style:italic;">How will this source be helpful towards your research topic?</span>
+    </td>
+    <td style="min-height:80px;">&nbsp;</td>
+  </tr>
+</table>`;
+    }
+
     const bibDocHtml = `<!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Astrophysics Podcast - Annotated Bibliography Template</title></head>
-<body style="font-family:Arial,sans-serif;">
-<h2>Astrophysics Podcast - Annotated Bibliography</h2>
-<p><strong>Minimum sources:</strong> 2 podcasts + 2 non-podcast sources</p>
-<p><strong>Instructions:</strong> Paraphrase summaries. Assess reliability using the criteria. Explain how each source helps your episode.</p>
-<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;">
-<tr style="background:#eeeeee;">
-  <th style="width:120px;text-align:left;">Source type</th>
-  <th style="text-align:left;">Citation (APA)</th>
-  <th style="text-align:left;">Summary (relevant points only)</th>
-  <th style="text-align:left;">Assessment (reliability)</th>
-  <th style="text-align:left;">Reflection (how it helps your episode)</th>
-</tr>
-<tr><td><strong>Podcast 1</strong></td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td></tr>
-<tr><td><strong>Podcast 2</strong></td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td></tr>
-<tr><td><strong>Non-podcast 1</strong></td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td></tr>
-<tr><td><strong>Non-podcast 2</strong></td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td><td>[Fill in]</td></tr>
-</table>
-<h3>Reliability criteria (quick)</h3>
-<ul>
-  <li>Who authored it and are they credible?</li>
-  <li>Does it reference evidence and other sources?</li>
-  <li>Two-source test: do credible sources agree on key claims?</li>
-  <li>Is it relevant to your driving question?</li>
-  <li>Does it acknowledge uncertainty or limits?</li>
-</ul>
+<head><meta charset="utf-8">
+<title>Astrophysics Podcast – Annotated Bibliography</title>
+</head>
+<body style="font-family:Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 20px;">
+<h2>Astrophysics Podcast – Annotated Bibliography</h2>
+<p><strong>Instructions:</strong> Paraphrase summaries. Assess reliability with evidence. Explain exactly how each source improves your episode.</p>
+${sourceBlock('Podcast 1')}
+${sourceBlock('Podcast 2')}
+${sourceBlock('Non-podcast 1')}
+${sourceBlock('Non-podcast 2')}
 </body></html>`;
-
-    const bibTxt = `ASTROPHYSICS PODCAST - ANNOTATED BIBLIOGRAPHY (2 podcasts + 2 non-podcasts)
-
-Instructions:
-- Summaries must be paraphrased and relevant.
-- Assess reliability (author/org credibility, references, two-source test, bias, uncertainty).
-- Reflection explains how the source improves your episode.
-
-SOURCE 1 (Podcast 1)
-Citation (APA):
-Summary:
-Assessment (reliability):
-Reflection (usefulness):
-
-SOURCE 2 (Podcast 2)
-Citation (APA):
-Summary:
-Assessment (reliability):
-Reflection (usefulness):
-
-SOURCE 3 (Non-podcast 1)
-Citation (APA):
-Summary:
-Assessment (reliability):
-Reflection (usefulness):
-
-SOURCE 4 (Non-podcast 2)
-Citation (APA):
-Summary:
-Assessment (reliability):
-Reflection (usefulness):
-`;
 
     function downloadBlob(filename, mimeType, content) {
       const blob = new Blob([content], { type: mimeType });
@@ -1997,11 +2183,12 @@ Reflection (usefulness):
       URL.revokeObjectURL(url);
     }
 
-    document.getElementById('download-bib-doc').addEventListener('click', () => {
-      downloadBlob('Astrophysics_Podcast_Annotated_Bibliography_Template.doc', 'application/msword', bibDocHtml);
-    });
-    document.getElementById('download-bib-txt').addEventListener('click', () => {
-      downloadBlob('Astrophysics_Podcast_Annotated_Bibliography_Template.txt', 'text/plain;charset=utf-8', bibTxt);
+    document.getElementById('download-bib-docx').addEventListener('click', () => {
+      downloadBlob(
+        'Astrophysics_Podcast_Annotated_Bibliography_Template.docx',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        bibDocHtml
+      );
     });
   })();
 </script>
