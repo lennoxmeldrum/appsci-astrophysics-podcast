@@ -1507,12 +1507,15 @@ G. FINAL VERDICT
         <p>Fill this out as a group or split sources across members, then compile into one final version.</p>
       </div>
 
-      <!-- Download buttons -->
+      <!-- Download / copy buttons -->
       <div style="margin-bottom:1.5rem;">
-        <div class="bib-dl-btns" style="margin-bottom:0.55rem;">
+        <div class="bib-dl-btns" style="margin-bottom:0.6rem;">
           <button class="btn-dl-primary" id="download-bib-docx">⬇ Download (.docx)</button>
+          <button class="btn-dl-secondary" id="copy-bib-gdocs">📋 Copy for Google Docs</button>
         </div>
-        <p style="margin:0;color:var(--muted);font-size:0.82rem;">To use in Google Docs: download the file above, then in Google Docs choose <strong style="color:var(--text);">File → Open → Upload</strong> to import it.</p>
+        <p id="bib-copy-status" style="margin:0;color:var(--muted);font-size:0.82rem;">
+          Paste into any Google Doc with <strong style="color:var(--text);">Ctrl+V</strong> (or Cmd+V on Mac) — the table structure will be preserved.
+        </p>
       </div>
 
       <!-- Podcast 1 -->
@@ -2302,6 +2305,74 @@ G. FINAL VERDICT
       }
     });
 
+  })();
+
+  /* ── Copy bibliography as HTML for Google Docs ───────────── */
+  (function () {
+    const FIELDS = [
+      { name: 'Citation',               desc: '(APA)' },
+      { name: 'Summary',                desc: 'Briefly describe the main and important points' },
+      { name: 'Assessment / evaluation', desc: "Assess the reliability of this source. How do you know it\u2019s good?" },
+      { name: 'Reflection',             desc: 'How will this source be helpful towards your research topic?' },
+    ];
+
+    function sourceTableHtml(label) {
+      const rows = FIELDS.map(f => `
+        <tr>
+          <td style="width:190px;background-color:#e8eaf6;padding:8px 12px;vertical-align:top;border:1px solid #bbb;font-size:10pt;">
+            <b>${f.name}</b><br>
+            <i style="font-size:9pt;color:#555;">${f.desc}</i>
+          </td>
+          <td style="padding:8px 12px;border:1px solid #bbb;font-size:10pt;min-width:360px;">
+            <br><br>
+          </td>
+        </tr>`).join('');
+
+      return `
+        <table border="1" style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;margin-bottom:16px;">
+          <tr>
+            <td colspan="2" style="background-color:#c5cae9;padding:8px 12px;border:1px solid #999;font-size:12pt;font-weight:bold;">${label}</td>
+          </tr>
+          ${rows}
+        </table>`;
+    }
+
+    const SOURCES = ['Podcast 1', 'Podcast 2', 'Non-podcast 1', 'Non-podcast 2'];
+
+    function buildHtml() {
+      return `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>
+        <p style="font-size:16pt;font-family:Arial,sans-serif;"><b>Astrophysics Podcast \u2013 Annotated Bibliography</b></p>
+        <p style="font-size:10pt;font-family:Arial,sans-serif;margin-bottom:16px;">
+          <b>Instructions:</b> Paraphrase summaries. Assess reliability with evidence.
+          Explain exactly how each source improves your episode.
+        </p>
+        ${SOURCES.map(sourceTableHtml).join('')}
+      </body></html>`;
+    }
+
+    document.getElementById('copy-bib-gdocs').addEventListener('click', async () => {
+      const btn    = document.getElementById('copy-bib-gdocs');
+      const status = document.getElementById('bib-copy-status');
+
+      try {
+        const html = buildHtml();
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }) }),
+        ]);
+        btn.textContent = '✓ Copied!';
+        status.innerHTML = '<strong style="color:#5eead4;">Copied.</strong> Open a Google Doc and press Ctrl+V (or Cmd+V) to paste.';
+        setTimeout(() => {
+          btn.innerHTML = '📋 Copy for Google Docs';
+          status.innerHTML = 'Paste into any Google Doc with <strong style="color:var(--text);">Ctrl+V</strong> (or Cmd+V on Mac) \u2014 the table structure will be preserved.';
+        }, 4000);
+      } catch {
+        btn.textContent = '📋 Copy for Google Docs';
+        status.innerHTML = '<span style="color:#fb923c;">Copy not available in this browser.</span> Try downloading the .docx instead.';
+        setTimeout(() => {
+          status.innerHTML = 'Paste into any Google Doc with <strong style="color:var(--text);">Ctrl+V</strong> (or Cmd+V on Mac) \u2014 the table structure will be preserved.';
+        }, 4000);
+      }
+    });
   })();
 </script>
 </body>
