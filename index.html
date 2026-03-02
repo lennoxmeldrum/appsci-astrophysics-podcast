@@ -11,11 +11,11 @@
   <style>
     /* ── Variables ─────────────────────────────────────────── */
     :root {
-      --bg:       #05080f;
-      --panel:    #0c1220;
-      --panel-2:  #101828;
+      --bg:       #090e1a;
+      --panel:    #0f1728;
+      --panel-2:  #131e30;
       --text:     #edf0ff;
-      --muted:    #8899cc;
+      --muted:    #a4b8d0;
       --accent:   #818cf8;   /* indigo */
       --accent-2: #2dd4bf;   /* teal   */
       --accent-3: #c084fc;   /* purple */
@@ -35,7 +35,8 @@
       background: var(--bg);
       color: var(--text);
       font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
-      line-height: 1.6;
+      font-size: 17px;
+      line-height: 1.7;
     }
 
     /* ── Starfield canvas ──────────────────────────────────── */
@@ -132,7 +133,7 @@
       gap: 0.4rem;
       padding: 0.42rem 0.95rem;
       border-radius: 999px;
-      font-size: 0.84rem;
+      font-size: 0.87rem;
       font-weight: 500;
       font-family: inherit;
       cursor: default;
@@ -828,6 +829,84 @@
       min-height: 72px;
     }
 
+    /* ── Hr ─────────────────────────────────────────────────── */
+    hr {
+      border: none;
+      border-top: 1px solid rgba(129,140,248,0.18);
+      margin: 1.75rem 0;
+    }
+
+    /* ── Callout box ─────────────────────────────────────────── */
+    .callout {
+      background: rgba(129,140,248,0.07);
+      border: 1px solid rgba(129,140,248,0.2);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.35rem;
+      margin: 1rem 0;
+    }
+    .callout h4 {
+      margin: 0 0 0.55rem;
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .callout p { margin: 0 0 0.5rem; color: var(--muted); font-size: 0.93rem; line-height: 1.65; }
+    .callout p:last-child { margin-bottom: 0; }
+    .callout ul, .callout ol { margin: 0; padding-left: 1.3rem; color: var(--muted); font-size: 0.93rem; display: grid; gap: 0.35rem; }
+
+    /* ── Note text ───────────────────────────────────────────── */
+    .note { color: var(--muted); font-size: 0.88rem; font-style: italic; margin-top: 0.5rem !important; }
+
+    /* ── Copy block (journal template) ──────────────────────── */
+    .copy-block {
+      background: var(--panel);
+      border: 1px solid rgba(129,140,248,0.14);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 0.75rem;
+    }
+    .copy-actions {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.65rem 1rem;
+      background: rgba(5,8,16,0.35);
+      border-bottom: 1px solid rgba(129,140,248,0.1);
+    }
+    .copy-status { font-size: 0.82rem; color: var(--muted); }
+    pre.copy-text {
+      margin: 0;
+      padding: 1.1rem 1.25rem;
+      font: 500 0.87rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-x: auto;
+    }
+
+    /* ── Rubric table ────────────────────────────────────────── */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid rgba(129,140,248,0.15);
+      margin: 1.25rem 0;
+    }
+    .rubric-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; background: var(--panel); }
+    .rubric-table thead tr { background: rgba(5,8,16,0.65); }
+    .rubric-table th {
+      padding: 0.7rem 0.9rem; text-align: left; font-weight: 700;
+      color: var(--text); border-bottom: 2px solid rgba(129,140,248,0.22);
+      border-right: 1px solid rgba(129,140,248,0.1); white-space: nowrap;
+    }
+    .rubric-table th:first-child { min-width: 135px; }
+    .rubric-table td {
+      padding: 0.65rem 0.9rem; color: var(--muted); vertical-align: top;
+      border-bottom: 1px solid rgba(129,140,248,0.08);
+      border-right: 1px solid rgba(129,140,248,0.06);
+      font-size: 0.87rem; line-height: 1.55;
+    }
+    .rubric-table td:first-child { font-weight: 600; color: var(--text); }
+    .rubric-table tr:last-child td { border-bottom: none; }
+    .rubric-table th:last-child, .rubric-table td:last-child { border-right: none; }
+
     /* ── Responsive ─────────────────────────────────────────── */
     @media (max-width: 900px) {
       .hero-panels,
@@ -871,8 +950,11 @@
       <button class="tab inactive" role="tab" aria-selected="false" data-tab="sources" id="tab-sources" aria-controls="panel-sources">
         Research &amp; Sources
       </button>
-      <button class="tab locked" role="tab" aria-selected="false" aria-disabled="true" disabled title="Coming soon">
-        Rubric &amp; Checkpoints <span class="soon-pill">Soon</span>
+      <button class="tab inactive" role="tab" aria-selected="false" data-tab="journal" id="tab-journal" aria-controls="panel-journal">
+        Group Journal
+      </button>
+      <button class="tab inactive" role="tab" aria-selected="false" data-tab="rubric" id="tab-rubric" aria-controls="panel-rubric">
+        Rubrics
       </button>
     </div>
 
@@ -1692,6 +1774,407 @@ G. FINAL VERDICT
   </div>
 </div><!-- /panel-sources -->
 
+<!-- ══════════════════════════════════════════════════════════
+     TAB: Group Journal
+══════════════════════════════════════════════════════════ -->
+<div id="panel-journal" class="tab-panel" role="tabpanel" aria-labelledby="tab-journal">
+  <div class="container" style="padding-bottom:3rem;">
+
+    <div class="brief-hero">
+      <h1>Group Journal</h1>
+      <p>Your group will keep a single shared Google Doc journal. Each member will have <strong>their own tab</strong> inside that Doc and will write entries there throughout the project.</p>
+    </div>
+
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Why it matters</div>
+        <h2>Purpose</h2>
+      </div>
+      <ul class="checklist">
+        <li>Track your contributions and decision-making.</li>
+        <li>Show how your thinking evolved (questions, evidence, arguments, communication choices).</li>
+        <li>Make your role and effort visible and assessable.</li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Getting started</div>
+        <h2>Setup (Google Doc)</h2>
+      </div>
+      <div class="req-list">
+        <div class="req-item">
+          <h3>1) Create the shared document</h3>
+          <p>Create 1 Google Doc for the group and share it with your teacher.</p>
+        </div>
+        <div class="req-item">
+          <h3>2) Add personal tabs</h3>
+          <p>Create 1 tab per person — use each person's name as the tab title.</p>
+        </div>
+        <div class="req-item">
+          <h3>3) Add a Sources tab</h3>
+          <p>Create 1 final tab called <strong>Sources (Group)</strong> where you maintain a clean, consistently formatted list of sources used.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:1.25rem;">
+        <h4>Expectations</h4>
+        <ul>
+          <li>Entries should be <strong>regular</strong> (not one big dump at the end).</li>
+          <li>Write reflectively: not just "what we did", but "why we did it" and "what changed."</li>
+          <li>Be specific: decisions, debates, what you contributed, what you revised, and what you learned.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="bib-header-row" style="margin-bottom:0.75rem;">
+        <div class="section-heading" style="margin-bottom:0;">
+          <div class="section-label">Template</div>
+          <h2>Copyable journal entry template</h2>
+          <p>Copy the template below into <strong>your personal tab</strong> each time you write a new entry. Keep your formatting simple so it stays readable.</p>
+        </div>
+        <div class="bib-dl-btns">
+          <button class="btn-dl-primary" id="download-journal-txt">⬇ Download (.txt)</button>
+          <button class="btn-dl-secondary" id="copy-journal-gdocs">📋 Copy for Google Docs</button>
+        </div>
+      </div>
+      <p id="journal-dl-status" style="margin:0 0 0.75rem;color:var(--muted);font-size:0.82rem;">
+        Paste into your personal tab in the group Google Doc with <strong style="color:var(--text);">Ctrl+V</strong> (or Cmd+V on Mac).
+      </p>
+      <div class="copy-block">
+        <div class="copy-actions">
+          <button class="copy-btn" type="button" id="copy-journal-btn">Copy template</button>
+          <span class="copy-status" id="copy-journal-status" aria-live="polite"></span>
+        </div>
+        <pre id="journal-template" class="copy-text">JOURNAL ENTRY
+
+Name:
+Date:
+Entry title (what did we work on today?):
+
+1) What I did (specific contributions)
+-
+-
+-
+
+2) SEP 1: Asking Questions (how the inquiry evolved)
+- Key question(s) we are trying to answer:
+- How did these questions change today, and why?
+- What relationships between major factors/variables did we discuss?
+
+3) SEP 7: Argument from Evidence (claims - evidence - reasoning)
+- Claim(s) we are making today:
+- Evidence I found or used today (what, where from, why credible):
+- How does the evidence support the claim (reasoning):
+- Uncertainty, limitations, or competing interpretations we noted:
+
+4) SEP 8: Obtaining, Evaluating, and Communicating Information
+- How I checked reliability/relevance of information today:
+- What I did to make the explanation more accessible to an audience:
+- Terminology that needed defining (and how we explained it):
+- Communication decisions (structure, examples, analogies, pacing, transitions):
+
+5) Collaboration + reflection
+- Who I worked with and what decisions we made together:
+- A disagreement or problem we ran into (if any) and how we resolved it:
+- What I learned today (astrophysics and/or teamwork):
+- Next action I will take before the next lesson:
+
+(If you added a new source today, also add it to the Sources (Group) tab in the agreed format.)</pre>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Sources</div>
+        <h2>Source logging (group tab)</h2>
+      </div>
+      <p style="color:var(--muted);font-size:0.95rem;">
+        Keep a running list of sources in the <strong style="color:var(--text);">Sources (Group)</strong> tab.
+        Agree on a citation format (APA/MLA/etc) and stick to it.
+        Add new sources as you use them, then clean up ordering before final submission.
+      </p>
+    </section>
+
+  </div>
+</div><!-- /panel-journal -->
+
+<!-- ══════════════════════════════════════════════════════════
+     TAB: Rubrics
+══════════════════════════════════════════════════════════ -->
+<div id="panel-rubric" class="tab-panel" role="tabpanel" aria-labelledby="tab-rubric">
+  <div class="container" style="padding-bottom:3rem;">
+
+    <div class="brief-hero">
+      <h1>Rubrics</h1>
+      <p>The rubrics below are based on the project's three Science and Engineering Practices (SEPs) and how they show up in a 10–15 minute astrophysics podcast.</p>
+    </div>
+
+    <!-- ── How grading works ─────────────────────────────── -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Assessment</div>
+        <h2>How grading works (group vs individual)</h2>
+      </div>
+
+      <div class="callout">
+        <h4>Group-assessed (shared score)</h4>
+        <ul>
+          <li><strong>Episode structure and coherence</strong>: hook, framing question, clear sections, transitions, conclusion.</li>
+          <li><strong>Science quality across the whole episode</strong>: credible evidence, accurate claims, clear reasoning.</li>
+          <li><strong>Communication</strong>: accessibility to audience, appropriate explanation of terminology, pacing.</li>
+          <li><strong>Production/format choices</strong>: audio clarity and conventions used appropriately.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <h4>Individually-assessed (your personal score)</h4>
+        <ul>
+          <li><strong>Annotated bibliography</strong> (your sources and evaluation).</li>
+          <li><strong>Your journal entries</strong> (your thinking, decisions, and documented contributions).</li>
+          <li><strong>Your spoken segment(s)</strong> (what you personally say in the final cut).</li>
+        </ul>
+      </div>
+
+      <p class="note">This means a strong final episode does not automatically guarantee a strong individual result (and vice versa).</p>
+    </section>
+
+    <hr>
+
+    <!-- ── SEP 1 ──────────────────────────────────────────── -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">SEP 1</div>
+        <h2>Asking Questions</h2>
+        <p>Start by formulating questions that probe the depths of your topic — the unknowns, controversies, and cutting-edge developments. Your episode should explore these questions and lead the audience to deeper understanding.</p>
+      </div>
+
+      <div class="callout">
+        <h4>What "problem definition" means in a podcast</h4>
+        <p>In this project, a "problem statement" is the clearly defined question or issue your episode is built around. Unlike an experiment (hypothesis testing), here it acts as the central theme that guides the inquiry, discussion, and exploration of the topic.</p>
+        <p class="note">Example framing: "How do the initial properties of stars (mass and composition) determine their life cycle and ultimate fate?"</p>
+      </div>
+
+      <div class="callout">
+        <h4>Examples of "variable relationships" (use these as thinking models)</h4>
+        <ul>
+          <li><strong>Exoplanets:</strong> distance from star → surface temperature / habitability potential (plus star type/age, etc).</li>
+          <li><strong>Black holes:</strong> black hole mass → gravitational pull / event horizon radius and observable effects.</li>
+          <li><strong>Gravitational waves:</strong> mass and acceleration of objects → wave amplitude / frequency (LIGO-style detection context).</li>
+        </ul>
+      </div>
+
+      <div class="table-wrap">
+        <table class="rubric-table">
+          <thead>
+            <tr>
+              <th>Criteria</th>
+              <th>Beginning</th>
+              <th>Developing</th>
+              <th>Meeting</th>
+              <th>Meeting with Excellence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Question clarity</strong></td>
+              <td>General, imprecise questions with no clear testability.</td>
+              <td>Testable questions but with misidentified relationships.</td>
+              <td>Precise, testable questions identifying some significant relationships.</td>
+              <td>Precise, testable questions identifying most significant relationships with testability evaluation.</td>
+            </tr>
+            <tr>
+              <td><strong>Variable relationships</strong></td>
+              <td>Unclear discussion of dependent and independent variables.</td>
+              <td>Errors in identifying predicted relationships between variables.</td>
+              <td>Accurate discussion of predicted relationships between variables.</td>
+              <td>Discusses predicted relationships, including quantitative aspects, with high precision.</td>
+            </tr>
+            <tr>
+              <td><strong>Problem definition</strong></td>
+              <td>Partially matching problem or design statement, lacking clear intent.</td>
+              <td>Matches intent of the problem with some identified constraints.</td>
+              <td>Clear problem definition with specific design elements.</td>
+              <td>Precisely defined problem with thorough explanation of necessary design elements.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ── SEP 7 ──────────────────────────────────────────── -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">SEP 7</div>
+        <h2>Engaging in Argument from Evidence</h2>
+        <p>Gather credible evidence (papers, expert interviews, reputable sources), then use it to build well-reasoned arguments. Your episode should represent relevant viewpoints and come to conclusions based on your analysis.</p>
+      </div>
+
+      <div class="callout">
+        <h4>What this looks like in a podcast</h4>
+        <ul>
+          <li><strong>Evidence gathering:</strong> document where evidence came from and why those sources are credible.</li>
+          <li><strong>Argument construction:</strong> claims – evidence – reasoning, not "facts in a row".</li>
+          <li><strong>Critique and revision:</strong> revise when new evidence changes the story, or when the group challenges an interpretation.</li>
+        </ul>
+      </div>
+
+      <div class="table-wrap">
+        <table class="rubric-table">
+          <thead>
+            <tr>
+              <th>Criteria</th>
+              <th>Beginning</th>
+              <th>Developing</th>
+              <th>Meeting</th>
+              <th>Meeting with Excellence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Evidence evaluation and organization</strong></td>
+              <td>Evidence is used with little evaluation/structure; arguments feel disjointed.</td>
+              <td>Some evaluation/organization, but coherence and depth are inconsistent.</td>
+              <td>Evidence is mostly evaluated and organized; arguments are coherent and relevant.</td>
+              <td>Evidence is rigorously evaluated and organized into compelling, coherent arguments.</td>
+            </tr>
+            <tr>
+              <td><strong>Claim identification and support</strong></td>
+              <td>Claims are unclear or unsupported.</td>
+              <td>Claims exist but support is partial or weakly connected.</td>
+              <td>Claims are clear and mostly supported with minor gaps.</td>
+              <td>Claims are clear, strongly supported, and directly linked to evidence.</td>
+            </tr>
+            <tr>
+              <td><strong>Linking evidence to claim with reasoning</strong></td>
+              <td>Reasoning is missing or flawed.</td>
+              <td>Some reasoning, but links are tenuous/incomplete.</td>
+              <td>Reasoning is mostly clear with minor lapses.</td>
+              <td>Reasoning is consistently coherent and analytical; demonstrates deep understanding.</td>
+            </tr>
+            <tr>
+              <td><strong>Critique of evidence and arguments</strong></td>
+              <td>No critique; accepts ideas uncritically.</td>
+              <td>Some critique, but superficial.</td>
+              <td>Critique shows growing depth and critical thinking.</td>
+              <td>Thorough critique; recognizes uncertainty, limitations, and competing interpretations.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ── SEP 8 ──────────────────────────────────────────── -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">SEP 8</div>
+        <h2>Obtaining, Evaluating, and Communicating Information</h2>
+        <p>Evaluate the reliability and relevance of the information you find, then communicate it clearly, engagingly, and accurately — making complex ideas understandable to your audience.</p>
+      </div>
+
+      <div class="callout">
+        <h4>What this looks like in a podcast</h4>
+        <ul>
+          <li><strong>Information sourcing:</strong> use strategies to find relevant and reliable information.</li>
+          <li><strong>Information evaluation:</strong> show how you judged credibility and relevance (and what was hard about it).</li>
+          <li><strong>Communication strategies:</strong> decide how to present the science for engagement and clarity, including how you use the podcast format itself.</li>
+        </ul>
+      </div>
+
+      <div class="table-wrap">
+        <table class="rubric-table">
+          <thead>
+            <tr>
+              <th>Criteria</th>
+              <th>Beginning</th>
+              <th>Developing</th>
+              <th>Meeting</th>
+              <th>Meeting with Excellence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Organization and coherence</strong></td>
+              <td>Information is disorganized and unclear, resulting in an incoherent podcast narrative.</td>
+              <td>Information is partially structured and clear, though some segments lack coherence.</td>
+              <td>Information is mostly well-structured, clear, and coherent, facilitating a fluid and engaging narrative.</td>
+              <td>Information is exceptionally well-structured, clear, and coherent, providing a compelling and engaging podcast.</td>
+            </tr>
+            <tr>
+              <td><strong>Relevance of information</strong></td>
+              <td>Includes inappropriate and irrelevant information, significantly detracting from the podcast's focus.</td>
+              <td>Some information is irrelevant, mildly affecting overall coherence and focus.</td>
+              <td>Information is mostly relevant, with minimal irrelevant details that do not significantly detract from focus.</td>
+              <td>Information is highly relevant and focused, directly contributing to depth and engagement.</td>
+            </tr>
+            <tr>
+              <td><strong>Presentation format</strong></td>
+              <td>The podcast format is inappropriate for the topic and audience, detracting from engagement and understanding.</td>
+              <td>The format is partially appropriate, but some elements detract from purpose and engagement.</td>
+              <td>The format is mostly appropriate, with well-integrated elements that enhance engagement and understanding.</td>
+              <td>The format is entirely appropriate and innovative, maximizing engagement and deepening understanding.</td>
+            </tr>
+            <tr>
+              <td><strong>Use of terminology</strong></td>
+              <td>Many errors in astrophysics terminology and conventions, leading to misunderstandings.</td>
+              <td>Some terminology errors, occasionally affecting clarity and credibility.</td>
+              <td>Mostly appropriate terminology and conventions, with minor errors that do not impede understanding.</td>
+              <td>Accurate terminology and conventions throughout, enhancing credibility and educational value.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ── Individual delivery ──────────────────────────── -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Individual</div>
+        <h2>Individual delivery (what you personally say in the final episode)</h2>
+        <p>This is the cleanest way to assess the quality of your spoken segment(s), separately from the overall episode.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="rubric-table">
+          <thead>
+            <tr>
+              <th>Criteria</th>
+              <th>Beginning</th>
+              <th>Developing</th>
+              <th>Meeting</th>
+              <th>Meeting with Excellence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Clarity + pacing</strong></td>
+              <td>Hard to follow; rushed/unclear; frequent resets.</td>
+              <td>Sometimes clear, but pacing/clarity inconsistent.</td>
+              <td>Clear and steady; pacing supports understanding.</td>
+              <td>Exceptionally clear; pacing and emphasis feel professional and listener-friendly.</td>
+            </tr>
+            <tr>
+              <td><strong>Accuracy + explanation</strong></td>
+              <td>Contains inaccuracies or unexplained jargon.</td>
+              <td>Mostly accurate, but explanations are incomplete or jargon-heavy.</td>
+              <td>Accurate; explains terms and ideas accessibly.</td>
+              <td>Accurate and highly accessible; anticipates confusion and resolves it cleanly.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</div><!-- /panel-rubric -->
+
 <footer class="page-footer">
   <div class="container">
     <p>Applied Physics – Astrophysics Podcast Website – Designed for Students</p>
@@ -2305,6 +2788,58 @@ G. FINAL VERDICT
       }
     });
 
+  })();
+
+  /* ── Journal template buttons ──────────────────────────── */
+  (function () {
+    const templateEl = document.getElementById('journal-template');
+
+    /* Copy template text */
+    document.getElementById('copy-journal-btn').addEventListener('click', async () => {
+      const status = document.getElementById('copy-journal-status');
+      try {
+        await navigator.clipboard.writeText(templateEl.textContent);
+        status.textContent = 'Copied to clipboard.';
+        setTimeout(() => { status.textContent = ''; }, 1800);
+      } catch {
+        status.textContent = 'Copy failed — select and copy manually.';
+      }
+    });
+
+    /* Download as .txt */
+    document.getElementById('download-journal-txt').addEventListener('click', () => {
+      const blob = new Blob([templateEl.textContent], { type: 'text/plain;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'journal-entry-template.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    /* Copy for Google Docs (plain text pasted inline) */
+    document.getElementById('copy-journal-gdocs').addEventListener('click', async () => {
+      const btn    = document.getElementById('copy-journal-gdocs');
+      const status = document.getElementById('journal-dl-status');
+      const text   = templateEl.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = '✓ Copied!';
+        status.innerHTML = '<strong style="color:#5eead4;">Copied.</strong> Open your personal tab in the group Google Doc and press Ctrl+V (or Cmd+V) to paste.';
+        setTimeout(() => {
+          btn.innerHTML = '📋 Copy for Google Docs';
+          status.innerHTML = 'Paste into your personal tab in the group Google Doc with <strong style="color:var(--text);">Ctrl+V</strong> (or Cmd+V on Mac).';
+        }, 4000);
+      } catch {
+        btn.textContent = '📋 Copy for Google Docs';
+        status.innerHTML = '<span style="color:#fb923c;">Copy not available in this browser.</span> Try downloading the .txt instead.';
+        setTimeout(() => {
+          status.innerHTML = 'Paste into your personal tab in the group Google Doc with <strong style="color:var(--text);">Ctrl+V</strong> (or Cmd+V on Mac).';
+        }, 4000);
+      }
+    });
   })();
 
   /* ── Copy bibliography as HTML for Google Docs ───────────── */
