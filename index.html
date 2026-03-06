@@ -907,6 +907,22 @@
     .rubric-table tr:last-child td { border-bottom: none; }
     .rubric-table th:last-child, .rubric-table td:last-child { border-right: none; }
 
+    /* ── Script Writing – pre/code blocks inside cards ─────── */
+    .card pre {
+      background: rgba(5,8,16,0.7);
+      border: 1px solid rgba(129,140,248,0.15);
+      border-radius: 8px;
+      padding: 0.75rem 0.9rem;
+      font: 500 0.82rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--muted);
+      white-space: pre;
+      overflow-x: auto;
+      margin: 0.75rem 0 0;
+    }
+    .card code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
     /* ── Responsive ─────────────────────────────────────────── */
     @media (max-width: 900px) {
       .hero-panels,
@@ -946,6 +962,9 @@
       </button>
       <button class="tab inactive" role="tab" aria-selected="false" data-tab="roles" id="tab-roles" aria-controls="panel-roles">
         Group Roles &amp; Workflow
+      </button>
+      <button class="tab inactive" role="tab" aria-selected="false" data-tab="script" id="tab-script" aria-controls="panel-script">
+        ✍ Script Writing
       </button>
       <button class="tab inactive" role="tab" aria-selected="false" data-tab="sources" id="tab-sources" aria-controls="panel-sources">
         Research &amp; Sources
@@ -1499,6 +1518,252 @@ G. FINAL VERDICT
 
   </div>
 </div><!-- /panel-roles -->
+
+<!-- ══════════════════════════════════════════════════════════
+     TAB: Script Writing
+══════════════════════════════════════════════════════════ -->
+<div id="panel-script" class="tab-panel" role="tabpanel" aria-labelledby="tab-script">
+  <div class="container" style="padding-bottom:3rem;">
+
+    <div class="brief-hero">
+      <h1>Script Writing</h1>
+      <p>How to format your script so recording is smooth and professional</p>
+    </div>
+
+    <div class="callout">
+      <p>Your script is not just "what you say". It is a <strong>recording blueprint</strong>.
+      A strong script makes your episode easier to record, easier to edit, and easier to understand.</p>
+    </div>
+
+    <section>
+      <div class="grid grid-2">
+
+        <article class="card">
+          <h3>1) Speaker identification + legend (required)</h3>
+          <p class="subtitle">Everyone must be clearly identified throughout the script</p>
+          <p>
+            At the <strong>top of the script</strong>, include a legend that defines how each person will be labeled.
+            Use abbreviations so the script stays readable while you record.
+          </p>
+          <p><strong>Legend rules:</strong></p>
+          <ul>
+            <li>Use <strong>consistent abbreviations</strong> for the whole episode.</li>
+            <li>One speaker tag per line — do not bury speaker names mid-sentence.</li>
+            <li>When the speaker changes, start a new line with a new tag.</li>
+            <li>If someone is "off mic" or reading a quote, label it explicitly.</li>
+          </ul>
+          <p><strong>Example legend:</strong></p>
+          <pre><code>LEGEND
+H = Host (introduces segments, keeps pacing)
+C = Co-host (asks questions, clarifies for audience)
+R = Researcher (delivers evidence, explains data, definitions)
+E = Expert (a guest who knows a lot about the topic)
+S = Scientist (an expert who is working as scientist in this field)
+
+(Your group should customize these so they match your roles.)</code></pre>
+          <p><strong>Example speaker labeling:</strong></p>
+          <pre><code>[SEGMENT 1 - Cold Open]
+H: Imagine looking up and realizing most of the universe is invisible...
+C: Wait - invisible as in we cannot see it at all?
+R: Right. And that brings us to dark matter - evidence first, explanations second.</code></pre>
+        </article>
+
+        <article class="card">
+          <h3>2) What else belongs in a script (besides dialogue)</h3>
+          <p class="subtitle">If it affects recording or editing, it goes in the script</p>
+          <ul>
+            <li><strong>Segment headings</strong> so everyone knows where they are (Cold Open, Intro, Main Segment, Outro).</li>
+            <li><strong>Audio cues</strong>: music in/out, sound effects, ambience, silence, pauses.</li>
+            <li><strong>Timing targets</strong> per segment (rough, not obsessive): e.g., "Segment 2 about 3 minutes".</li>
+            <li><strong>Transition lines</strong> (who says them, and what they transition to).</li>
+            <li><strong>Pronunciation notes</strong> for names/terms (especially missions, telescopes, scientists).</li>
+            <li><strong>Emphasis cues</strong> (optional): [slow], [emphasize], [smile voice], [pause].</li>
+            <li><strong>Research callouts</strong> so evidence is explicit (and easy to cite later).</li>
+            <li><strong>Editing notes</strong>: places you expect to cut, tighten, or insert clips.</li>
+            <li><strong>Credits + sources</strong> (even if you publish them later as show notes).</li>
+          </ul>
+          <p><strong>Audio cue examples:</strong></p>
+          <pre><code>[MUSIC IN - 2 seconds, then under dialogue]
+[SFX: telescope motor whir - subtle]
+[PAUSE 1 beat]
+[MUSIC OUT]
+[CLIP INSERT: 8-12 seconds - only if teacher allows]</code></pre>
+        </article>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="grid grid-2">
+
+        <article class="card">
+          <h3>3) Script quality rules (what makes it recordable)</h3>
+          <p class="subtitle">Write for ears, not eyes</p>
+          <ul>
+            <li><strong>Short sentences</strong>. If you need commas everywhere, rewrite it.</li>
+            <li><strong>Signpost the listener</strong>: "Here's the idea", "So what?", "The evidence is…".</li>
+            <li><strong>Define terms once</strong>, then reuse consistent language (do not rename concepts every minute).</li>
+            <li><strong>Limit numbers</strong>. Use one key value, then interpret it.</li>
+            <li><strong>Explain the "why this matters"</strong> every segment.</li>
+            <li><strong>Plan clarifying questions</strong> (co-host prompts are not improv — write them).</li>
+            <li><strong>Write transitions deliberately</strong> (no awkward "anyway…" moments).</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>4) Evidence + credibility inside the script</h3>
+          <p class="subtitle">Make your science visible and traceable</p>
+          <p>
+            When you use evidence, mark it in the script so your group can later build show notes and an annotated bibliography.
+          </p>
+          <ul>
+            <li>Label your evidence moments: <strong>[EVIDENCE]</strong>, <strong>[CLAIM]</strong>, <strong>[REASONING]</strong>.</li>
+            <li>When referencing a source, tag it: <strong>[SOURCE: NASA]</strong> or <strong>[SOURCE: OpenStax Ch. 29]</strong>.</li>
+            <li>If you mention uncertainty, tag it: <strong>[LIMITATION]</strong> or <strong>[OPEN QUESTION]</strong>.</li>
+          </ul>
+          <pre><code>R: [CLAIM] Dark matter does not emit light, but it still has gravity.
+R: [EVIDENCE] Galaxy rotation curves stay flat at large radius.
+R: [REASONING] If only visible mass existed, stars farther out would orbit slower.
+R: [SOURCE: OpenStax Astronomy 2e, Dark Matter section]</code></pre>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Script template -->
+    <section>
+      <div class="section-heading">
+        <div class="section-label">Template</div>
+        <h2>Script template</h2>
+        <p>Copy, customize, and write directly in this format</p>
+      </div>
+
+      <div class="worksheet">
+
+        <div class="template-box">
+          <h3>Copyable script template</h3>
+          <p>Use this as your working document. Keep the legend at the top and keep speaker labels consistent.</p>
+
+          <div class="bib-dl-btns" style="margin-bottom:0.6rem;">
+            <button class="btn-dl-primary" id="download-script-btn">⬇ Download (.txt)</button>
+            <button class="btn-dl-secondary" id="copy-script-gdocs">📋 Copy for Google Docs</button>
+          </div>
+          <p id="script-dl-status" style="margin:0 0 0.75rem;color:var(--muted);font-size:0.82rem;">
+            Paste into your group Google Doc and use it as your working script.
+          </p>
+
+          <textarea id="script-template" aria-label="Podcast script template">ASTROPHYSICS PODCAST - SCRIPT (WORKING)
+
+Episode title:
+Central question/topic:
+Target audience:
+Estimated runtime:
+
+LEGEND (EXAMPLES - CHANGE TITLES TO SUIT YOUR GROUP AND ADD YOUR NAMES)
+Host, H =
+Co-host, C =
+Researcher, R =
+Expert, E =
+Scientist, S =
+
+TECH / RECORDING NOTES (BEFORE YOU RECORD)
+- Room/location:
+- Mic setup:
+- File naming convention:
+- Backup plan (if someone is absent):
+- Pronunciation list (names/terms):
+
+OPENING (0:00 - 0:30)
+[SEGMENT - Cold Open]
+[AUDIO CUES]
+[MUSIC IN - 2 seconds, then under]
+H:
+C:
+[PAUSE 1 beat]
+[MUSIC OUT]
+
+INTRO (0:30 - 1:30)
+H: (Show name + episode title + what the listener will learn)
+C: (Quick framing question)
+R: (Preview the evidence or mystery)
+
+SEGMENT 1 - Core concept explained (target 2-3 min)
+[GOAL: Define the key idea in simple terms]
+H:
+R:
+C: (Clarifying question written in advance)
+R:
+[EVIDENCE / CLAIM / REASONING tags where relevant]
+[SOURCE tags]
+
+TRANSITION 1 (10-15 seconds)
+H: (Signals shift to next segment)
+[AUDIO CUE if used]
+
+SEGMENT 2 - Evidence, data, or observation (target 2-3 min)
+[GOAL: What do we observe and how do we know?]
+R: [EVIDENCE]
+R: [REASONING]
+C: (Misconception check / audience question)
+R: [LIMITATION] or [OPEN QUESTION] if relevant
+
+TRANSITION 2 (10-15 seconds)
+C: (Sets up the "why this matters" segment)
+
+SEGMENT 3 - Why it matters / real-world or big-picture connection (target 2-3 min)
+H:
+C:
+R:
+
+OPTIONAL - Mini Q&A / lightning round (target 1-2 min)
+[If you choose this format, write the questions]
+C: Question 1:
+H or R: Answer:
+C: Question 2:
+H or R: Answer:
+
+CONCLUSION (final 30-60 seconds)
+H: (Main takeaway in 1-2 sentences)
+C: (What the listener should remember)
+R: (One last "open question" or wonder)
+[MUSIC IN]
+H: (Credits + thanks)
+[MUSIC OUT]
+
+CREDITS + SOURCES (for your show notes later)
+- Music/SFX (if any):
+- Sources referenced (short list):
+- People credited:</textarea>
+
+          <div class="toolbar">
+            <button type="button" id="copy-script-btn">Copy script template</button>
+            <span id="script-copy-status" class="small" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="template-box">
+          <h3>Script checklist (use before recording)</h3>
+          <p>When these are true, recording is faster and editing is simpler.</p>
+          <ul class="checklist">
+            <li><strong>Legend is complete</strong> and all speaker labels match it.</li>
+            <li><strong>Segments are named</strong> and in a logical order.</li>
+            <li><strong>Transitions are written</strong> (no "um anyway" gaps).</li>
+            <li><strong>Evidence moments are tagged</strong> and source callouts exist.</li>
+            <li><strong>Pronunciation list exists</strong> for tricky terms/names.</li>
+            <li><strong>Audio cues are explicit</strong> (music/sfx/pause/clip insert).</li>
+            <li><strong>Outro includes credits</strong> (even if show notes come later).</li>
+            <li><strong>Runtime is realistic</strong> (segments have approximate targets).</li>
+          </ul>
+          <p class="small muted" style="margin-top:1rem;">
+            Reality check: if you cannot read the script out loud without getting lost, it is not record-ready yet.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</div><!-- /panel-script -->
 
 <!-- ══════════════════════════════════════════════════════════
      TAB: Research & Sources
@@ -2884,6 +3149,54 @@ Entry title (what did we work on today?):
         ${SOURCES.map(sourceTableHtml).join('')}
       </body></html>`;
     }
+
+  /* ── Script template buttons ──────────────────────────── */
+  (function () {
+    const scriptTextarea = document.getElementById('script-template');
+
+    document.getElementById('copy-script-btn').addEventListener('click', async () => {
+      const status = document.getElementById('script-copy-status');
+      try {
+        await navigator.clipboard.writeText(scriptTextarea.value);
+        status.textContent = 'Copied to clipboard.';
+        setTimeout(() => { status.textContent = ''; }, 1800);
+      } catch {
+        status.textContent = 'Copy failed — select and copy manually.';
+      }
+    });
+
+    document.getElementById('download-script-btn').addEventListener('click', () => {
+      const blob = new Blob([scriptTextarea.value], { type: 'text/plain;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'astrophysics-podcast-script-template.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('copy-script-gdocs').addEventListener('click', async () => {
+      const btn    = document.getElementById('copy-script-gdocs');
+      const status = document.getElementById('script-dl-status');
+      try {
+        await navigator.clipboard.writeText(scriptTextarea.value);
+        btn.textContent = '✓ Copied!';
+        status.innerHTML = '<strong style="color:#5eead4;">Copied.</strong> Paste into your group Google Doc with Ctrl+V (or Cmd+V on Mac).';
+        setTimeout(() => {
+          btn.innerHTML = '📋 Copy for Google Docs';
+          status.innerHTML = 'Paste into your group Google Doc and use it as your working script.';
+        }, 4000);
+      } catch {
+        btn.textContent = '📋 Copy for Google Docs';
+        status.innerHTML = '<span style="color:#fb923c;">Copy not available in this browser.</span> Try downloading the .txt instead.';
+        setTimeout(() => {
+          status.innerHTML = 'Paste into your group Google Doc and use it as your working script.';
+        }, 4000);
+      }
+    });
+  })();
 
     document.getElementById('copy-bib-gdocs').addEventListener('click', async () => {
       const btn    = document.getElementById('copy-bib-gdocs');
